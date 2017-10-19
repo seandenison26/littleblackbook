@@ -1,0 +1,43 @@
+{
+	"id" : "string",
+	"player": "string",
+	"virtues": {
+		"strength": "number",
+		"cunning": "number",
+		"courage": "number",
+		"beauty": "number",
+		"wisdom": "number",
+		"prowess": "number"
+	},
+	"highConcept": {
+		"house" :"string", 
+		"familyName": "string", 
+		"publicName": "string", 
+		"secretName": "string", 
+		"age": "string",
+	        "family": "object",
+		"title": "string",
+		"agepoints": "number"
+	},
+	"devotions": [],
+	"aspects": [],
+	"contacts": [],
+	"friends":" [],
+	"stylePoints": {
+		"points":,
+		"gear": [],
+		"banked":
+	},
+	"manuevers": [],
+	"extras": [],
+	"domain": [{
+		"province": {
+			"resources": [],
+			"regions": [],
+			"vassals": [] 
+		}
+	}].
+	"relics": [],
+	"rituals": [],
+	"aritfacts": []
+}

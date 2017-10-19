@@ -1,0 +1,17 @@
+{
+  "name": "littleblackbook",
+  "version": "1.0.0",
+  "description": "Houses of the Blooded character creator.",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Ziggy",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "react": "^16.0.0",
+    "redux": "^3.7.2"
+  }
+}
