@@ -21,6 +21,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#www/
+www/bundle.js
+
 # vim
 *.swp
+
 
