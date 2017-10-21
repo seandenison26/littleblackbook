@@ -1,10 +1,13 @@
 //Reducer File 
 
-export default reducer = (state, action) => {
+export default function reducer(state = {}, action = {}) {
 	var newState = Object.assign(state, {})
 
-	switch(action) {
-		
+	switch(action.type) {
+		case "CHANGE_PUB_NAME": {
+			newState.highConcept = Object.assign(newState.highConcept, {publicName:action.name})
+			return newState
+		}	
 
 		default: {
 			return newState
