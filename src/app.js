@@ -4,9 +4,14 @@ import {createStore} from "redux"
 import reducer from "./reducer"
 import VenSheet from "./VenSheet/VenSheet"
 
+
+const onInputChange = (action) => {
+	store.dispatch(action)
+}
+
 const state = {
 	player: "Sean",
-	virtues: {
+	ven: [{virtues: {
 		"strength": "2",
 		"cunning": "3",
 		"courage": "W",
@@ -25,6 +30,9 @@ const state = {
 		title: "Count",
 		agepoints: "34"
 	}
+	}],
+	venView: {},
+	onInputChange: onInputChange	
 }
 
 
@@ -36,18 +44,18 @@ const store = createStore(reducer,state);
 store.subscribe(() => {ReactDOM.render(<App data={store.getState()} store={store}/>, document.getElementById('app'))})
 
 
-const App = ({data,store}) => {
+const App = ({data}) => {
 	const searchVen = () => {
 		let newName = document.getElementById("searchBtn").value
 		store.dispatch({type:"CHANGE_PUB_NAME", name:newName})
 	}
 	const onInput = (e) => {
-		document.getElementById("searchBtn").value = e.target.value
+		document.getElementById(e.target.id).value = e.target.value
 	}
 
 	return  <div id="characterView">
 			<input id="searchBtn" type="text" onChange={onInput} /><button onClick={searchVen}>Search</button>
-			<VenSheet ven={data}/>
+			<VenSheet ven={data.ven[0]} onInputChange={data.onInputChange}/>
 		</div>
 
 
