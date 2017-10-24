@@ -5,8 +5,8 @@ import "./VenSheet.css"
  *			 > Relics, Rituals, Artifacts
  */
 
-const SaveButton = ({props}) => {
-	return <button onclick={props.save}></button>
+const SaveButton = ({save}) => {
+	return <button onclick={save}></button>
 }
 
 const VenHeader = ({ven}) => {
