@@ -1,4 +1,5 @@
 import React from "react"
+import {updateVenView} from "../actions.js"
 import "./VenSheet.css"
 /*	Components Needed
  *		VenSheet 
@@ -13,13 +14,17 @@ const VenHeader = ({ven}) => {
 	return	<h1 id="venheader">{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</h1> 
 }
 
-const VirtueBar = ({virtues}) => {
+const VirtueBar = ({virtues,VenViewInputChange}) => {
 	
 	const changeVir = (e) => {
 		document.getElementById(e.target.id).value = e.target.value
 	}
 
-	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`${v}`} id={`${v}tab`} onChange={changeVir} value={virtues[v]}>
+	const test = (e) => {
+		console.log(e.target.value)
+	}
+
+	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`${v}`} id={`${v}`} onChange={VenViewInputChange} defaultValue={virtues[v]}>
 												<option value="W">W</option>
 												<option value="2">2</option>
 												<option value="3">3</option>
@@ -60,7 +65,6 @@ const Aspects = ({aspects}) => {
 				<p>Ivoke: {aspect.invoke}</p>
 				<p>Tag: {aspect.tag}</p>
 				<p>Compel: {aspect.compel}</p>
-				
 			</div>
 	}
 
@@ -94,19 +98,18 @@ const Domain = ({domain}) => {
 const Guff = ({guff}) => {
 	
 }	
-export default function VenSheet({ven}) {
+export default function VenSheet({ven, dispatchAction}) {
 
 	const VenViewInputChange = (e) => {
-	let change = e.target.id
+	let
+	       	change = e.target.id,
+	       	input = e.target.value
 
-
-	
+		dispatchAction(updateVenView(ven,change,input))
 	}
-
-
 
 	return	<div id="venSheet">
 			<VenHeader ven={ven}/>
-			<VirtueBar virtues={ven.virtues}/>	
+			<VirtueBar virtues={ven.virtues} VenViewInputChange={VenViewInputChange}/>	
 		</div>
 }	

@@ -15,8 +15,6 @@ export default function reducer(state = {}, action = {}) {
 		}
 		case "CHANGE_VEN_VIEW": {
 			newState.venView = Object.assign(newState.venView, action.venView)
-
-		
 			return newState
 		}	
 		default: {
