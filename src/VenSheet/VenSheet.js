@@ -6,7 +6,7 @@ import "./VenSheet.css"
  *			 > Relics, Rituals, Artifacts
  */
 
-const SaveButton = ({save}) => {
+const SaveButton = ({saveVen}) => {
 	return <button onclick={save}></button>
 }
 
@@ -14,16 +14,9 @@ const VenHeader = ({ven}) => {
 	return	<h1 id="venheader">{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</h1> 
 }
 
+
+//Should we eventually have these be tied to an array? When creating a new character we want them to pick form the right array, which initially will be the one form the book but eventually let DMs offer a custom array?
 const VirtueBar = ({virtues,VenViewInputChange}) => {
-	
-	const changeVir = (e) => {
-		document.getElementById(e.target.id).value = e.target.value
-	}
-
-	const test = (e) => {
-		console.log(e.target.value)
-	}
-
 	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`${v}`} id={`${v}`} onChange={VenViewInputChange} defaultValue={virtues[v]}>
 												<option value="W">W</option>
 												<option value="2">2</option>
@@ -50,9 +43,18 @@ highConcept: {
 		agepoints: "34"
 	}
 */
-const HighConcept = ({highConcept}) => {
+const HighConcept = ({highConcept,VenViewInputChange}) => {
 	return 	<div id="highConceptTab">
-			<p>House: <input>{highConcept.house}</input></p>				
+			<h2>High Concept</h2>	
+			<p>House: <input id="house" type="text" onChange={VenViewInputChange} value={highConcept.house} /></p>				
+			<p>Family Name: <input id="familyName" type="text" onChange={VenViewInputChange} value={highConcept.familyName} /></p>				
+			<p>Public Name: <input id="publicName" type="text" onChange={VenViewInputChange} value={highConcept.publicName} /></p>				
+			<p>Public Meaning: <input id="publicMeaning" onChange={VenViewInputChange} value={highConcept.publicMeaning} /></p>				
+			<p>Secret Name: <input id="secretName" type="text" onChange={VenViewInputChange} value={highConcept.secretName} /></p>				
+			<p>Age: <input id="age" type="text" onChange={VenViewInputChange} value={highConcept.age} /></p>				
+			<p>Family: <input id="family" onChange={VenViewInputChange} type="text" value={highConcept.family} /></p>				
+			<p>Title: <input id="title" onChange={VenViewInputChange} value={highConcept.title} /></p>				
+			<p>Age Points: <input id="agepoints" onChange={VenViewInputChange} value={highConcept.agepoints} /></p>				
 		</div>	
 }	
 
@@ -104,12 +106,11 @@ export default function VenSheet({ven, dispatchAction}) {
 	let
 	       	change = e.target.id,
 	       	input = e.target.value
-
 		dispatchAction(updateVenView(ven,change,input))
 	}
-
 	return	<div id="venSheet">
 			<VenHeader ven={ven}/>
 			<VirtueBar virtues={ven.virtues} VenViewInputChange={VenViewInputChange}/>	
+			<HighConcept highConcept={ven.highConcept} VenViewInputChange={VenViewInputChange}/>	
 		</div>
 }	
