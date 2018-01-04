@@ -1,5 +1,5 @@
 export const testState = {
-	player: "Sean",
+	user: "Sean",
 	ven: [{virtues: {
 		"strength": "2",
 		"cunning": "3",
@@ -29,7 +29,7 @@ export const testState = {
 			"wisdom": "2",
 			"prowess": "4"
 	},
-	highConcept: {
+	"highConcept": {
 		house :"Fox", 
 		familyName: "Nege", 
 		publicName: "Orlando",

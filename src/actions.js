@@ -11,6 +11,14 @@
 //Actions to be created 
 
 
+
+//Utility functions
+const returnJSON = (data) => {
+		return new Promise((res,rej) => {
+			return res.json(data)
+	})
+}
+
 //Helper OBject, createVenObject, creates a blank VenView to be filled in.
 const createVenObject = (ven = {}) => {
 	return  {
@@ -58,9 +66,22 @@ const createVenObject = (ven = {}) => {
 	}
 }
 
-//{type:"VIEW_VEN", data:{Ven to be copied} }: Will create a second copy of the desired ven object to be edited by the user. 
-export const updateVenView = (ven,key,input) => {
+export const getUserVen = (user) => {
+	var url = `http://127.0.0.1:5984/testdb/_design/designdoc/_view/getVen?key=${user}` , userVen 
+	fetch(url,returnsData)
+		.then(retunsData)
+		.then((ven) => {
+			return {type:"CHANGE_VEN", ven:ven}
+		})
 	
+}
+
+export const changeVenView = (ven) => {
+	return {type:"CHANGE_VEN_VIEW", venView:ven}
+}	
+
+//{type:"UPDATE_VIEW_VEN", data:{Ven to be copied} }: Will create a second copy of the desired ven object to be edited by the user. How to set this up so that it can be used by ven sheet for changing to a new ven? 
+export const updateVenView = (ven,key,input) => {
 	let newView = ven
 	const getVenObj = (obj) => {
 		if(venViewFirst.indexOf(obj) > -1) {
@@ -101,5 +122,5 @@ export const updateVenView = (ven,key,input) => {
 			newView[key] = input
 		}	
 	}	
-	return {type:"UPDATE_VEN_VIEW", venView:newView}
+	return {type:"CHANGE_VEN_VIEW", venView:newView}
 }
