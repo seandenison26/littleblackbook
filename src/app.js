@@ -24,8 +24,8 @@ store.subscribe(() => {ReactDOM.render(<App data={store.getState()} util={util}/
 
 
 const App = ({data,util}) => {
-	const searchVen = (e) => {
-		let newName = document.getElementById("searchBtn").value
+	const getUserVen = (e) => {
+		console.log(data.user)
 		util.dispatchAction(getUserVen(data.user))
 	}
 
@@ -41,7 +41,8 @@ const App = ({data,util}) => {
 	}
 	
 	return  <div id="characterView">
-			<UserVen search={searchVen} ven={data.ven}/>
+			<UserVen ven={data.ven}/>
+			<button onClick={getUserVen}>Get Ven</button>
 			<VenSheet ven={data.venView} dispatchAction={dispatchAction}/>
 		</div>
 
