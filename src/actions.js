@@ -13,7 +13,7 @@
 
 
 //Utility functions
-const returnJSON = (data) => {
+const returnsJSON = (data) => {
 		return new Promise((res,rej) => {
 			return res.json(data)
 	})
@@ -67,13 +67,12 @@ const createVenObject = (ven = {}) => {
 }
 
 export const getUserVen = (user) => {
-	var url = `http://127.0.0.1:5984/testdb/_design/designdoc/_view/getVen?key=${user}` , userVen 
-	fetch(url,returnsData)
-		.then(retunsData)
+	var url = `http:\/\/127.0.0.1:5984/lbb_dev/_design/getVen/_view/getUserVen` 
+	fetch(url,returnsJSON)
+		.then(returnsJSON)
 		.then((ven) => {
 			return {type:"CHANGE_VEN", ven:ven}
 		})
-	
 }
 
 export const changeVenView = (ven) => {
