@@ -3,11 +3,20 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const app = express();
- 
+const bodyParser = require('body-parser'); 
 const compiler = webpack(webpackConfig);
  
 app.use(express.static(__dirname + '/public'));
- 
+
+//parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended:false}));
+
+//parse application/json
+app.use(bodyParser.json());
+
+//sets the the router
+//app.use('/',router); 
+
 app.use(webpackDevMiddleware(compiler, {
   hot: true,
   filename: 'bundle.js',
