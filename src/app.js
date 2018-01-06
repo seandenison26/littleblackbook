@@ -24,7 +24,7 @@ store.subscribe(() => {ReactDOM.render(<App data={store.getState()} util={util}/
 
 
 const App = ({data,util}) => {
-	const searchVen = () => {
+	const searchVen = (e) => {
 		let newName = document.getElementById("searchBtn").value
 		util.dispatchAction(getUserVen(data.user))
 	}
@@ -33,14 +33,15 @@ const App = ({data,util}) => {
 		dispatchAction(changeVenView(e.target.value))
 	}
 	
-	const VenOptions = (ven) => {
-		return ven.map(ven => {return <option key={ven._id} value={ven}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
+	const UserVen = ({ven}) => {
+		return	<select id="userVen" onChange={changeVenView}>
+				{ven.map(ven => {return <option key={ven._id} value={ven}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})}
+			</select>
+
 	}
 	
 	return  <div id="characterView">
-			<select id="userVen" onChange={searchVen}>
-				<VenOptions ven={data.ven}/>
-			</select>
+			<UserVen search={searchVen} ven={data.ven}/>
 			<VenSheet ven={data.venView} dispatchAction={dispatchAction}/>
 		</div>
 

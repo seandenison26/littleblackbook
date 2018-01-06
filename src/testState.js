@@ -1,6 +1,6 @@
 export const testState = {
-	user: "Sean",
-	ven: [{virtues: {
+	"user": "Sean",
+	"ven": [{"virtues": {
 		"strength": "2",
 		"cunning": "3",
 		"courage": "W",
@@ -8,20 +8,20 @@ export const testState = {
 		"wisdom": "2",
 		"prowess": "4"
 	},
-	id: 1,
-	highConcept: {
-		house :"Fox", 
-		familyName: "Nege", 
-		publicName: "Orlando",
-	       	publicMeaning: "The Herald of Duty",	
-		secretName: "Orfeo", 
-		age: "Spring",
-	        family: {},
-		title: "Count",
-		agepoints: "34"
+	"_id": 1,
+	"highConcept": {
+		"house":"Fox", 
+		"familyName": "Nege", 
+		"publicName": "Orlando",
+	       	"publicMeaning": "The Herald of Duty",	
+		"secretName": "Orfeo", 
+		"age": "Spring",
+	        "family": {},
+		"title": "Count",
+		"agepoints": "34"
 	}
 	}],
-	venView: {virtues: {
+	"venView": {"virtues": {
 			"strength": "2",
 			"cunning": "3",
 			"courage": "W",
@@ -30,15 +30,15 @@ export const testState = {
 			"prowess": "4"
 	},
 	"highConcept": {
-		house :"Fox", 
-		familyName: "Nege", 
-		publicName: "Orlando",
-	       	publicMeaning: "The Herald of Duty",	
-		secretName: "Orfeo", 
-		age: "Spring",
-	        family: {},
-		title: "Count",
-		agepoints: "34"
+		"house":"Fox", 
+		"familyName": "Nege", 
+		"publicName": "Orlando",
+	       	"publicMeaning": "The Herald of Duty",	
+		"secretName": "Orfeo", 
+		"age": "Spring",
+	        "family": {},
+		"title": "Count",
+		"agepoints": "34"
 	},
 	"devotions": [],
 	"aspects": [],
