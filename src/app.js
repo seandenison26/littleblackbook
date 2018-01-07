@@ -27,6 +27,7 @@ const App = ({data,util}) => {
 	const getVen = (e) => {
 		e.preventDefault()
 		getUserVen(data.user)
+		.then(action => dispatchAction(action))
 	}
 
 	const changeVenView = (e) => {
@@ -38,7 +39,7 @@ const App = ({data,util}) => {
 	}
 	
 	return  <div id="characterView">
-			<select id="userVen" onChange={changeVenView}>
+			<select id="userVen" onChange={changeVenView} value={data.ven[0]}>
 				<VenOptions ven={data.ven}/>
 			</select>
 			<button onClick={getVen}>Get Ven</button>	

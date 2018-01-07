@@ -68,11 +68,15 @@ const createVenObject = (ven = {}) => {
 
 export const getUserVen = (user) => {
 	var url = `http:\/\/127.0.0.1:5984/lbb_dev/_design/getVen/_view/getUserVen` 
-	fetch(url,returnsJSON)
-		.then(returnsJSON)
+	
+	return new Promise((res,rej) => {
+		fetch(url) .then(response => response.json())
 		.then((ven) => {
-			return {type:"CHANGE_VEN", ven:ven}
+			res({type:"CHANGE_VEN", ven:ven.rows.map(v => v.value)})
 		})
+		.catch(console.log)
+
+	})	
 }
 
 export const changeVenView = (ven) => {

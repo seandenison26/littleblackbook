@@ -3,7 +3,8 @@
 export default function reducer(state = {}, action = {}) {
 	
 	var newState = Object.assign(state, {})
-		
+	
+	console.log(action)	
 	console.log(newState)
 
 
@@ -13,8 +14,9 @@ export default function reducer(state = {}, action = {}) {
 
 			return newState
 		}
-		case "GET_USER_VEN": {
+		case "CHANGE_VEN": {
 			newState.ven = Object.assign(newState.ven, action.ven)
+			console.log(newState.ven)
 			return newState
 		}	
 		case "CHANGE_VEN_VIEW": {
