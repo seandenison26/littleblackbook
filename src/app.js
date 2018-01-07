@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import {createStore} from "redux"
 import {testState} from "./testState"
 import reducer from "./reducer"
-import {getUserVen,changeVenView} from "./actions"
+import {getUserVen,changeVenView,updateVenView} from "./actions"
 import VenSheet from "./VenSheet/VenSheet"
 
 
@@ -30,19 +30,22 @@ const App = ({data,util}) => {
 		.then(action => dispatchAction(action))
 	}
 
-	const changeVenView = (e) => {
-		dispatchAction(changeVenView(e.target.value))
+	const selectVenView = (e) => {
+		dispatchAction(changeVenView(data.ven[e.target.value]))
 	}
 	
-	const VenOptions = ({ven}) => {
-		return ven.map(ven => {return <option key={ven._id} value={ven}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
+	const VenSelectBar = ({ven}) => {
+		let options = ven.map((ven, i) => {return <option key={ven._id} value={i}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
+		return 	<div id ='venSelectBar'>
+					<select id="userVen" onChange={selectVenView} value={data.venView}>
+						{options}		
+					</select>
+				<button onClick={getVen}>Get Ven</button>	
+			</div>
 	}
 	
 	return  <div id="characterView">
-			<select id="userVen" onChange={changeVenView} value={data.ven[0]}>
-				<VenOptions ven={data.ven}/>
-			</select>
-			<button onClick={getVen}>Get Ven</button>	
+			<VenSelectBar ven={data.ven}/>
 			<VenSheet ven={data.venView} dispatchAction={dispatchAction}/>
 		</div>
 
