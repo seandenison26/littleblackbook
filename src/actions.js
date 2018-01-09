@@ -67,7 +67,7 @@ const createVenObject = (ven = {}) => {
 }
 
 export const getUserVen = (user) => {
-	var url = `http:\/\/127.0.0.1:5984/lbb_dev/_design/getVen/_view/getUserVen` 
+	var url = `api/getUserVen/${user}` 
 	
 	return new Promise((res,rej) => {
 		fetch(url) .then(response => response.json())
