@@ -1,5 +1,31 @@
-const db = '#'
+const http = require('http')
+const DB = '127.0.0.1:5984/lbb_dev'
 
-var tasks = {}
 
-module.exports = {}
+//desired middle ware, 
+
+
+//takes in an array, gets number of UUIDs based upon the length and adds an _id prop to each of the objs
+const addUUID = (objs) = {
+	
+}
+
+//gets all userVen from user id
+const getUserVen = (user) => {
+	var url = `http:\/\/${DB}/_design/getVen/_view/getUserVen?key=\"${user}\"`
+	return new Promise((res,rej) => {
+		http.get(url, (view) => {
+			let rawData = ''
+			view.setEncoding('utf8')
+			view.on('data', c => rawData += c)
+			view.on('end',() => { 	
+			res(JSON.parse(rawData))
+			})
+		})
+
+	})
+}
+
+const tasks = {addUUID,getUserVen}
+
+module.exports =  tasks

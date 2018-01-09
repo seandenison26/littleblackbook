@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const app = express();
 const bodyParser = require('body-parser'); 
+const router = require('./server/router'); 
 const compiler = webpack(webpackConfig);
  
 app.use(express.static(__dirname + '/public'));
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended:false}));
 app.use(bodyParser.json());
 
 //sets the the router
-//app.use('/',router); 
+app.use('/',router); 
 
 app.use(webpackDevMiddleware(compiler, {
   hot: true,

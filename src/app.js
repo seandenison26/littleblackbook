@@ -18,10 +18,7 @@ const util = {
 	dispatchAction: dispatchAction
 }
 
-
-//store.subscribe(()=> console.log(store.getState()))
 store.subscribe(() => {ReactDOM.render(<App data={store.getState()} util={util}/>, document.getElementById('app'))})
-
 
 const App = ({data,util}) => {
 	const getVen = (e) => {

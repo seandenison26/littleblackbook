@@ -1,33 +1,41 @@
 Current DevGoal
 """""""""""""""
 Succesfully save a ven to the database
-	-Drop Down Menu of All the oweners ven
+
 Current Task
 """"""""""""
 
+-Set up express middleware for accessing the db
 
 
 
 Next Steps
 """"""""""
 
--Setup DB
-
 -Aspect System
 
 -Province System
 
+-Build Flux action creator
 
+-look into dispatchers
 
 DevIdeas
 """"""""
 
-Family will probablly need to be a system unto itself that will connect through the week. Build a family tree module? How will we display this in the character sheet?
+Nav tabs - Profile, Letters, Ven, Games, Wiki
 
+Family will probablly need to be a system unto itself that will connect through the week. Build a family tree module? How will we display this in the character sheet?
 
 Will need a system for updating Aspects unto themselves. Will need to create a build Aspect object. 
 
+Message module - DM will want to send 
+
 Game - auto roll age points of all NPCs ina game?
+
+Tag system for searching later?
+
+DMs being able to pick characters from the wiki (search by author?) and just add them to a game. 
 
 CouchDB
 """""""
@@ -40,8 +48,6 @@ Can also be generated with node-uuid
 
 Types
 """""
-
-
 
 Users
 	-account info, 
@@ -66,4 +72,7 @@ Blessings
 
 
 
-  
+ Archive
+""""""""" 
+-Drop Down Menu of All the oweners ven
+-Setup DB
