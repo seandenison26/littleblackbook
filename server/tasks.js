@@ -40,17 +40,12 @@ const addUUID = (objs) => {
 const getUserVen = (user) => {
 	var url = `http:\/\/${DB}/_design/getVen/_view/getUserVen?key=\"${user}\"`
 	return new Promise((res,rej) => {
-		http.get(url, (view) => {
-			let rawData = ''
-			view.setEncoding('utf8')
-			view.on('data', c => rawData += c)
-			view.on('end',() => { 	
-			res(JSON.parse(rawData))
-			})
-		})
-
+		queryDB(url)
+			.then(res)
+			.catch(rej)		
 	})
 }
+
 
 const tasks = {addUUID,getUserVen}
 
