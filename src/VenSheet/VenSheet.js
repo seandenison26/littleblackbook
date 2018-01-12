@@ -61,20 +61,58 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
-const AspectPage = ({aspects}) => {
-	const AspectTab = ({aspect}) => {
-		return 	<div className="aspect">
-				<h2>{aspect.name}</h2>
+const AspectPage = ({aspects, dispatchAction}) => {
+	const AspectCard = ({aspect}) => {
+		return 	<div id={aspect._id} className="aspect">
+				<h2>{aspect.season || "Aspect"}</h2>
+				<h3>{aspect.name}</h3>
 				<p>Ivoke: {aspect.invoke}</p>
 				<p>Tag: {aspect.tag}</p>
 				<p>Compel: {aspect.compel}</p>
 			</div>
 	}
+	
+	const AspectCards = ({aspects}) => {return aspect.map(a => <AspectCard aspect={a}/>)} 
+	//returns a function 
+	const createDoc = (collection, author = null) => {
+		switch (collection) {
+			case "aspect": {
+				return {
+					author: author,
+					collection: "aspect",
+					season: null,
+					name: "",
+					invoke: "",
+					compel: ""
+				}
+			}
+			case "ven": {
+				return {
+					author: author,
+					collection: "ven",
+					highConcept:{
+					
+					},
+					aspects: []
+				}
+				
+			}		
+			
+		}
 
-	const ApectCards = aspects.map 
+	}	
+	
+	
+	const createAspect = (e) => {
+		console.log(createDoc("aspect","user"))
+	}
+
+		
 
 	return 	<div id="aspect">
-			{AspectTabs}
+			{aspects.length > 0 ? <AspectCards aspects={aspects}/>: null}
+			<button onClick={createAspect}>New Aspect</button>
+			
 		</div>	
 }	
 
@@ -113,5 +151,6 @@ export default function VenSheet({ven, dispatchAction}) {
 			<VenHeader ven={ven}/>
 			<VirtueBar virtues={ven.virtues} VenViewInputChange={VenViewInputChange}/>	
 			<HighConcept highConcept={ven.highConcept} VenViewInputChange={VenViewInputChange}/>	
+			<AspectPage aspects={ven.aspects} author={ven.author} VenViewInputChange={VenViewInputChange}/>	
 		</div>
 }	
