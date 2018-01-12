@@ -17,7 +17,13 @@ const VenHeader = ({ven}) => {
 
 //Should we eventually have these be tied to an array? When creating a new character we want them to pick form the right array, which initially will be the one form the book but eventually let DMs offer a custom array?
 const VirtueBar = ({virtues,VenViewInputChange}) => {
-	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`${v}`} id={`${v}`} onChange={VenViewInputChange} defaultValue={virtues[v]}>
+	const VirtueChange = (e) => {
+	let
+	       	virtue = e.target.id,
+	       	input = e.target.value
+		VenViewInputChange(virtue,input)
+	}
+	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`${v}`} id={`${v}`} onChange={VirtueChange} defaultValue={virtues[v]}>
 												<option value="W">W</option>
 												<option value="2">2</option>
 												<option value="3">3</option>
@@ -30,37 +36,32 @@ const VirtueBar = ({virtues,VenViewInputChange}) => {
 			{VirtueTabs}
 		</div>		
 }
-/*
-highConcept: {
-		house :"Fox", 
-		familyName: "Nege", 
-		publicName: "Orlando",
-	       	publicMeaning: "The Herald of Duty",	
-		secretName: "Orfeo", 
-		age: "Spring",
-	        family: {},
-		title: "Count",
-		agepoints: "34"
-	}
-*/
+
+
 const HighConcept = ({highConcept,VenViewInputChange}) => {
+	const HighConceptChange = (e) => {
+	let
+		highConcept = e.target.id,
+	       	input = e.target.value
+		VenViewInputChange(highConcept,input)
+	}
 	return 	<div id="highConceptTab">
 			<h2>High Concept</h2>	
-			<p>House: <input id="house" type="text" onChange={VenViewInputChange} value={highConcept.house} /></p>				
-			<p>Family Name: <input id="familyName" type="text" onChange={VenViewInputChange} value={highConcept.familyName} /></p>				
-			<p>Public Name: <input id="publicName" type="text" onChange={VenViewInputChange} value={highConcept.publicName} /></p>				
-			<p>Public Meaning: <input id="publicMeaning" onChange={VenViewInputChange} value={highConcept.publicMeaning} /></p>				
-			<p>Secret Name: <input id="secretName" type="text" onChange={VenViewInputChange} value={highConcept.secretName} /></p>				
-			<p>Age: <input id="age" type="text" onChange={VenViewInputChange} value={highConcept.age} /></p>				
-			<p>Family: <input id="family" onChange={VenViewInputChange} type="text" value={highConcept.family} /></p>				
-			<p>Title: <input id="title" onChange={VenViewInputChange} value={highConcept.title} /></p>				
-			<p>Age Points: <input id="agepoints" onChange={VenViewInputChange} value={highConcept.agepoints} /></p>				
+			<p>House: <input id="house" type="text" onChange={HighConceptChange} value={highConcept.house} /></p>				
+			<p>Family Name: <input id="familyName" type="text" onChange={HighConceptChange} value={highConcept.familyName} /></p>				
+			<p>Public Name: <input id="publicName" type="text" onChange={HighConceptChange} value={highConcept.publicName} /></p>				
+			<p>Public Meaning: <input id="publicMeaning" onChange={HighConceptChange} value={highConcept.publicMeaning} /></p>				
+			<p>Secret Name: <input id="secretName" type="text" onChange={HighConceptChange} value={highConcept.secretName} /></p>				
+			<p>Age: <input id="age" type="text" onChange={HighConceptChange} value={highConcept.age} /></p>				
+			<p>Family: <input id="family" onChange={HighConceptChange} type="text" value={highConcept.family} /></p>				
+			<p>Title: <input id="title" onChange={HighConceptChange} value={highConcept.title} /></p>				
+			<p>Age Points: <input id="agepoints" onChange={HighConceptChange} value={highConcept.agepoints} /></p>				
 		</div>	
 }	
 
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
-const Aspects = ({aspects}) => {
+const AspectPage = ({aspects}) => {
 	const AspectTab = ({aspect}) => {
 		return 	<div className="aspect">
 				<h2>{aspect.name}</h2>
@@ -70,7 +71,9 @@ const Aspects = ({aspects}) => {
 			</div>
 	}
 
-	return 	<div id="aspectTabs">
+	const ApectCards = aspects.map 
+
+	return 	<div id="aspect">
 			{AspectTabs}
 		</div>	
 }	
@@ -102,11 +105,9 @@ const Guff = ({guff}) => {
 }	
 export default function VenSheet({ven, dispatchAction}) {
 
-	const VenViewInputChange = (e) => {
-	let
-	       	change = e.target.id,
-	       	input = e.target.value
-		dispatchAction(updateVenView(ven,change,input))
+	
+	const VenViewInputChange = (key,input) => {
+		dispatchAction(updateVenView(ven,key,input))
 	}
 	return	<div id="venSheet">
 			<VenHeader ven={ven}/>
