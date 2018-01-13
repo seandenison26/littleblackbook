@@ -31,6 +31,14 @@ const App = ({data,util}) => {
 		dispatchAction(changeVenView(data.ven[e.target.value]))
 	}
 	
+	const createVenView = (venView) => {
+		var newVenView = Object.assign({},venView)  
+		if(!newVenView.aspects.newAspectName) {
+			newVenView.aspects.newAspectName = ""
+		}
+		return newVenView
+	}
+
 	const VenSelectBar = ({ven}) => {
 		let options = ven.map((ven, i) => {return <option key={ven._id} value={i}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
 		return 	<div id ='venSelectBar'>
@@ -41,9 +49,11 @@ const App = ({data,util}) => {
 			</div>
 	}
 	
+	
+
 	return  <div id="characterView">
 			<VenSelectBar ven={data.ven}/>
-			<VenSheet author={data.user} ven={data.venView} dispatchAction={dispatchAction}/>
+			<VenSheet author={data.user} ven={createVenView(data.venView)} dispatchAction={dispatchAction}/>
 		</div>
 
 

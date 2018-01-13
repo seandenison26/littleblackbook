@@ -3,7 +3,7 @@
 		virtues = ["strength","cunning","courage","beauty","wisdom","prowess"],
 		highConcept = ["house","familyName","publicName","secretName","age","family","title","agepoints"],
 		stylePoints = ["points","gear","banked"],
-		venViewFirst = ["id","player","devotions","aspects","contacts","friends","manuevers","extras", "domain","relics","rituals","artifacts"]
+		venViewFirst = ["newAspectName","player","devotions","aspects","contacts","friends","manuevers","extras", "domain","relics","rituals","artifacts"]
 		
 		
 

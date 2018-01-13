@@ -61,27 +61,46 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
-const AspectPage = ({aspects, dispatchAction, newAspect}) => {
-	const AspectCard = ({aspect}) => {
+const AspectPage = ({aspects, dispatchAction,VenViewInputChange, newAspectName}) => {
+	const AspectPageChange = (e) => {
+		const aspectsChange = (id,value) => {
+			var newAspects = Object.assign({},aspects)
+			if(id === "newAspectName") {
+				newAspects.newAspectName = value
+			}
+			return newAspects
+		}
+			let
+			id = e.target.id,
+	       		value = e.target.value
+			VenViewInputChange("aspects",aspectsChange(id,value))
+	}
+	const AspectCard = ({aspect, key}) => {
 		return 	<div id={aspect._id} className="aspect">
 				<h2>{aspect.season || "Aspect"}</h2>
-				<h3>{aspect.name}</h3>
+				<h3>Name:<input onChange={AspectPageChange(aspect)} value={aspect.name}/></h3>
 				<p>Ivoke: {aspect.invoke}</p>
 				<p>Tag: {aspect.tag}</p>
 				<p>Compel: {aspect.compel}</p>
 			</div>
 	}
 	
-	const AspectCards = ({aspects}) => {return aspect.map(a => <AspectCard aspect={a}/>)} 
+	const AspectCards = ({aspects}) => {return aspect.map(a => <AspectCard key={a._id} aspect={a}/>)} 
 	
 	const createAspect = (e) => {
-		console.log(newAspect())
+		console.log(newAspect(document.getElementById("newAspectName").value))
+	}
+
+	const NewAspect = ({}) => {
+		return  <div id="newAspect">
+				<input id="newAspectName" onChange={AspectPageChange} value={aspects.newAspectName}/>
+				<button onClick={createAspect}>New Aspect</button>
+			</div>
 	}
 
 	return 	<div id="aspect">
 			{aspects.length > 0 ? <AspectCards aspects={aspects}/>: null}
-			<button onClick={createAspect}>New Aspect</button>
-			
+			<NewAspect/>	
 		</div>	
 }	
 
@@ -112,7 +131,7 @@ const Guff = ({guff}) => {
 }	
 export default function VenSheet({ven, dispatchAction, author}) {
 	const newUserDoc = (type) => {
-		return () => createDoc(type,author)
+		return (name) => createDoc(type,author,name)
 	}
 
 
