@@ -5,20 +5,22 @@ Succesfully save a ven to the database
 Current Task
 """"""""""""
 
--Set up express middleware for accessing the db
+-Aspect System
 
 
 
 Next Steps
 """"""""""
+-write postDoctoDB function
 
--Aspect System
 
 -Province System
 
 -Build Flux action creator
 
 -look into dispatchers
+
+-fix your git commits
 
 DevIdeas
 """"""""
@@ -74,5 +76,6 @@ Blessings
 
  Archive
 """"""""" 
+-Set up express middleware for querying the db
 -Drop Down Menu of All the oweners ven
 -Setup DB

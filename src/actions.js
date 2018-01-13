@@ -19,6 +19,30 @@ const returnsJSON = (data) => {
 	})
 }
 
+export const createDoc = (collection, author = null) => {
+	switch (collection) {
+		case "aspect": {
+			return {
+				author: author,
+				collection: "aspect",
+				season: null,
+				name: "",
+				invoke: "",
+				compel: ""
+			}
+		}
+		case "ven": {
+			return {
+				author: author,
+				collection: "ven",
+				highConcept:{
+				},
+				aspects: []
+			}
+		}		
+	}
+}	
+
 //Helper OBject, createVenObject, creates a blank VenView to be filled in.
 const createVenObject = (ven = {}) => {
 	return  {

@@ -1,5 +1,5 @@
 import React from "react"
-import {updateVenView} from "../actions.js"
+import {updateVenView, createDoc} from "../actions.js"
 import "./VenSheet.css"
 /*	Components Needed
  *		VenSheet 
@@ -61,7 +61,7 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
-const AspectPage = ({aspects, dispatchAction}) => {
+const AspectPage = ({aspects, dispatchAction, newAspect}) => {
 	const AspectCard = ({aspect}) => {
 		return 	<div id={aspect._id} className="aspect">
 				<h2>{aspect.season || "Aspect"}</h2>
@@ -73,41 +73,10 @@ const AspectPage = ({aspects, dispatchAction}) => {
 	}
 	
 	const AspectCards = ({aspects}) => {return aspect.map(a => <AspectCard aspect={a}/>)} 
-	//returns a function 
-	const createDoc = (collection, author = null) => {
-		switch (collection) {
-			case "aspect": {
-				return {
-					author: author,
-					collection: "aspect",
-					season: null,
-					name: "",
-					invoke: "",
-					compel: ""
-				}
-			}
-			case "ven": {
-				return {
-					author: author,
-					collection: "ven",
-					highConcept:{
-					
-					},
-					aspects: []
-				}
-				
-			}		
-			
-		}
-
-	}	
-	
 	
 	const createAspect = (e) => {
-		console.log(createDoc("aspect","user"))
+		console.log(newAspect())
 	}
-
-		
 
 	return 	<div id="aspect">
 			{aspects.length > 0 ? <AspectCards aspects={aspects}/>: null}
@@ -141,16 +110,20 @@ const Domain = ({domain}) => {
 const Guff = ({guff}) => {
 	
 }	
-export default function VenSheet({ven, dispatchAction}) {
+export default function VenSheet({ven, dispatchAction, author}) {
+	const newUserDoc = (type) => {
+		return () => createDoc(type,author)
+	}
 
-	
+
 	const VenViewInputChange = (key,input) => {
 		dispatchAction(updateVenView(ven,key,input))
 	}
+
 	return	<div id="venSheet">
 			<VenHeader ven={ven}/>
 			<VirtueBar virtues={ven.virtues} VenViewInputChange={VenViewInputChange}/>	
 			<HighConcept highConcept={ven.highConcept} VenViewInputChange={VenViewInputChange}/>	
-			<AspectPage aspects={ven.aspects} author={ven.author} VenViewInputChange={VenViewInputChange}/>	
+			<AspectPage aspects={ven.aspects} newAspect={newUserDoc("aspect")} VenViewInputChange={VenViewInputChange}/>	
 		</div>
 }	
