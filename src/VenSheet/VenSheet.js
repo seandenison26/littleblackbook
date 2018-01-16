@@ -61,19 +61,17 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
-const AspectPage = ({aspects, dispatchAction,VenViewInputChange, newAspectName}) => {
+const AspectPage = ({aspects, dispatchAction,VenViewInputChange, newAspectName, newAspect}) => {
 	const AspectPageChange = (e) => {
 		const aspectsChange = (id,value) => {
-			var newAspects = Object.assign({},aspects)
 			if(id === "newAspectName") {
-				newAspects.newAspectName = value
+				VenViewInputChange("newAspectName",value)
 			}
-			return newAspects
 		}
-			let
+		let
 			id = e.target.id,
 	       		value = e.target.value
-			VenViewInputChange("aspects",aspectsChange(id,value))
+			aspectsChange(id,value)
 	}
 	const AspectCard = ({aspect, key}) => {
 		return 	<div id={aspect._id} className="aspect">
@@ -85,22 +83,16 @@ const AspectPage = ({aspects, dispatchAction,VenViewInputChange, newAspectName})
 			</div>
 	}
 	
-	const AspectCards = ({aspects}) => {return aspect.map(a => <AspectCard key={a._id} aspect={a}/>)} 
+	const AspectCards = ({aspects}) => {return aspects.map(a => <AspectCard key={a._id} aspect={a}/>)} 
 	
 	const createAspect = (e) => {
 		console.log(newAspect(document.getElementById("newAspectName").value))
 	}
 
-	const NewAspect = ({}) => {
-		return  <div id="newAspect">
-				<input id="newAspectName" onChange={AspectPageChange} value={aspects.newAspectName}/>
+	return 	<div id="aspects">
+				{aspects.length > 0 ? <AspectCards aspects={aspects}/>: null}
+				<input id="newAspectName" onChange={AspectPageChange} value={newAspectName}/>
 				<button onClick={createAspect}>New Aspect</button>
-			</div>
-	}
-
-	return 	<div id="aspect">
-			{aspects.length > 0 ? <AspectCards aspects={aspects}/>: null}
-			<NewAspect/>	
 		</div>	
 }	
 
@@ -143,6 +135,6 @@ export default function VenSheet({ven, dispatchAction, author}) {
 			<VenHeader ven={ven}/>
 			<VirtueBar virtues={ven.virtues} VenViewInputChange={VenViewInputChange}/>	
 			<HighConcept highConcept={ven.highConcept} VenViewInputChange={VenViewInputChange}/>	
-			<AspectPage aspects={ven.aspects} newAspect={newUserDoc("aspect")} VenViewInputChange={VenViewInputChange}/>	
+			<AspectPage aspects={ven.aspects} newAspectName={ven.newAspectName || ""} newAspect={newUserDoc("aspect")} VenViewInputChange={VenViewInputChange}/>	
 		</div>
 }	
