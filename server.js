@@ -18,6 +18,10 @@ app.use(bodyParser.json());
 //sets the the router
 app.use('/',router); 
 
+//set static use
+app.use(express.static('public'))
+
+
 app.use(webpackDevMiddleware(compiler, {
   hot: true,
   filename: 'bundle.js',
