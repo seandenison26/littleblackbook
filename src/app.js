@@ -4,6 +4,7 @@ import {createStore} from "redux"
 import {testState} from "./testState"
 import reducer from "./reducer"
 import {getUserVen,changeVenView,updateVenView} from "./actions"
+import "./app.css"
 import VenSheet from "./VenSheet/VenSheet"
 
 
@@ -43,7 +44,7 @@ const App = ({data,util}) => {
 	
 	
 
-	return  <div id="characterView">
+	return  <div id="viewContainer">
 			<VenSelectBar ven={data.ven}/>
 			<VenSheet author={data.user} ven={data.venView} dispatchAction={dispatchAction}/>
 		</div>

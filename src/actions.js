@@ -4,13 +4,7 @@
 		highConcept = ["house","familyName","publicName","secretName","age","family","title","agepoints"],
 		stylePoints = ["points","gear","banked"],
 		venViewFirst = ["newAspectName","player","devotions","aspects","contacts","friends","manuevers","extras", "domain","relics","rituals","artifacts"]
-		
-		
-
-	
 //Actions to be created 
-
-
 
 //Utility functions
 const returnsJSON = (data) => {
