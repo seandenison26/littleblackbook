@@ -123,7 +123,15 @@ const Guff = ({guff}) => {
 }	
 export default function VenSheet({ven, dispatchAction, author}) {
 	const newUserDoc = (type) => {
-		return (name) => createDoc(type,author,name)
+		return async (name) => {
+			var doc = await createDoc(type,author,name)
+			switch (type) {
+				case "aspect": {
+					//dispatchAction(updateVenView(ven,"aspects",ven.aspects.concat(doc)))
+					console.log(doc)
+				}	
+			}
+		}
 	}
 
 

@@ -13,28 +13,47 @@ const returnsJSON = (data) => {
 	})
 }
 
-export const createDoc = (collection, author = null) => {
+export const createDoc = (collection, author = null, name) => {
+	var newDoc, url = `api/createDoc/` 
+		
 	switch (collection) {
 		case "aspect": {
-			return {
+			newDoc = {
 				author: author,
 				collection: "aspect",
 				season: null,
-				name: "",
+				name: name,
 				invoke: "",
 				compel: ""
 			}
 		}
 		case "ven": {
-			return {
+			newDoc = {
 				author: author,
 				collection: "ven",
 				highConcept:{
+					publicName:name
 				},
 				aspects: []
 			}
 		}		
 	}
+	var req = {
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		    method: "POST",
+		    body: JSON.stringify(newDoc)	
+	}
+	return new Promise((res,rej) => {
+		fetch(url,req).then(response => response.json())
+		.then((doc) => {
+			res(doc)
+		})
+		.catch(console.log)
+
+	})	
 }	
 
 //Helper OBject, createVenObject, creates a blank VenView to be filled in.

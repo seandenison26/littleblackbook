@@ -31,11 +31,16 @@ router.post('/api/getUUIDs', (req, res) => {
 			res.send(req.body)
 		})
 		.catch((err) => res.send(err));
-
 });
 
-//exports the router
-module.exports = router; 
+router.post('/api/createDoc', (req, res) => {
+	tasks.addUUID(req.body)
+		.then(tasks.saveDoc)
+		.then((docs) => {
+			res.send(req.body)
+		})
+		.catch((err) => res.send(err));
+});
 //exports the router
 module.exports = router; 
 
