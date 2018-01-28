@@ -33,11 +33,13 @@ router.post('/api/getUUIDs', (req, res) => {
 		.catch((err) => res.send(err));
 });
 
+//currently set up to eventually use Promis.all, currently will just save the first doc
 router.post('/api/createDoc', (req, res) => {
-	tasks.addUUID(req.body)
-		.then(tasks.saveDoc)
-		.then((docs) => {
-			res.send(req.body)
+	console.log(req.body)
+	tasks.addUUID(Array.of(req.body))
+		.then((docs) => tasks.saveDoc(docs[0]))
+		.then((doc) => {
+			res.send(doc)
 		})
 		.catch((err) => res.send(err));
 });

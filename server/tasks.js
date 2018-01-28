@@ -9,7 +9,9 @@ const
 //desired middle ware, 
 //returns http request promise
 const dbRequest = (options, body = null) => {
+	console.log(options)
 	return new Promise((res,rej) => {
+		console.log(body)
 		const req = http.request(options, (data) => {
 			let rawData = '' 
 			data.setEncoding('utf8')
@@ -20,7 +22,7 @@ const dbRequest = (options, body = null) => {
 			data.on('error', (e) => rej(e))	
 		})
 		req.on('error', (e) => rej(e))	
-		body ? req.write(body).end() : req.end
+		req.write(body).end()
 	})
 }
 
@@ -66,16 +68,17 @@ const getUserVen = (user) => {
 
 //saves a doc to the db
 const saveDoc = (doc) => {
+	console.log(doc)	
 	const 
 		body = JSON.stringify(doc),
 		method = 'POST',
 		headers = {
 			'Content-Type': 'application/json',	
-			'Content-Length': 'application/json'	
+			'Content-Length': `${body.length}`	
 		}
 	return new Promise((res,rej) => {
-		dbRequest(options(method,headers))
-			.then(res)
+		dbRequest(options(method,headers),body)
+			.then((data) => console.log(data))
 			.catch(rej)		
 	})
 }
