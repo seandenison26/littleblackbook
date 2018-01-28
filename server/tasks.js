@@ -9,15 +9,15 @@ const
 //desired middle ware, 
 //returns http request promise
 const dbRequest = (options, body = null) => {
-	console.log(options)
 	return new Promise((res,rej) => {
-		console.log(body)
 		const req = http.request(options, (data) => {
 			let rawData = '' 
 			data.setEncoding('utf8')
 			data.on('data', c => rawData += c)
 			data.on('end',() => { 	
+			console.log(rawData)
 			res(JSON.parse(rawData))
+			
 			})
 			data.on('error', (e) => rej(e))	
 		})
