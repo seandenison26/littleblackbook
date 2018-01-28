@@ -16,8 +16,7 @@ const dbRequest = (options, body = null) => {
 			data.on('data', c => rawData += c)
 			data.on('end',() => { 	
 			console.log(rawData)
-			res(JSON.parse(rawData))
-			
+			res(rawData)
 			})
 			data.on('error', (e) => rej(e))	
 		})
@@ -68,7 +67,6 @@ const getUserVen = (user) => {
 
 //saves a doc to the db
 const saveDoc = (doc) => {
-	console.log(doc)	
 	const 
 		body = JSON.stringify(doc),
 		method = 'POST',
@@ -78,7 +76,10 @@ const saveDoc = (doc) => {
 		}
 	return new Promise((res,rej) => {
 		dbRequest(options(method,headers),body)
-			.then((data) => console.log(data))
+			.then((data) => {
+				console.log(data) 
+				res(data)
+			})
 			.catch(rej)		
 	})
 }
