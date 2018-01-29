@@ -9,19 +9,20 @@ const
 //desired middle ware, 
 //returns http request promise
 const dbRequest = (options, body = null) => {
-	return new Promise((res,rej) => {
+	return new Promise((RES,rej) => {
 		const req = http.request(options, (data) => {
 			let rawData = '' 
 			data.setEncoding('utf8')
 			data.on('data', c => rawData += c)
 			data.on('end',() => { 	
-			console.log(rawData)
-			res(rawData)
+			console.log(JSON.parse(rawData))
+			RES(rawData)
 			})
 			data.on('error', (e) => rej(e))	
 		})
 		req.on('error', (e) => rej(e))	
-		req.write(body).end()
+		req.write(body)
+		req.end()
 	})
 }
 
@@ -75,10 +76,8 @@ const saveDoc = (doc) => {
 			'Content-Length': `${body.length}`	
 		}
 	return new Promise((res,rej) => {
-		dbRequest(options(method,headers),body)
-			.then((data) => {
-				console.log(data) 
-				res(data)
+		dbRequest(options(method,headers),body).then((data) => {
+				data.ok === true ? res(body) : rej(doc)
 			})
 			.catch(rej)		
 	})
