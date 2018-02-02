@@ -107,11 +107,11 @@ const updateDoc = (doc) => {
 			'Content-Type': 'application/json',	
 			'Content-Length': `${body.length}`	
 		}
-		
 	return new Promise((res,rej) => {
 		dbRequest(options(method,headers),body)
 			.then((data) => {
-				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(new Error(data))
+				console.log(data)	
+				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(data)
 			})
 			.catch((err) => { console.log('Update Err'), rej(err)})		
 	})
