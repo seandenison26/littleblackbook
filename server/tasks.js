@@ -4,7 +4,8 @@ const
 	dbOptions = {
 		hostname:'127.0.0.1',
 		port: '5984',
-		path: '/lbb_dev'
+		path: '/lbb_dev',
+		auth: `Basic ${Buffer.from('lbbDev:secret').toString('base64')}`
 	}
 //desired middle ware, 
 //returns http request promise
