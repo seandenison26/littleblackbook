@@ -81,7 +81,7 @@ const getUserVen = (user) => {
 }
 
 //saves a doc to the db
-const saveDoc = (doc) => {
+const createDoc = (doc) => {
 	const 
 		body = JSON.stringify(doc),
 		method = 'POST',
@@ -90,13 +90,32 @@ const saveDoc = (doc) => {
 			'Content-Length': `${body.length}`	
 		}
 	return new Promise((res,rej) => {
-		dbRequest(options(method,headers),body).then((data) => {
-				data.ok === true ? res(doc) : rej(data)
+		dbRequest(options(method,headers),body)
+			.then((data) => {
+				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(new Error(data))
 			})
 			.catch((err) => { console.log('Save Err'), rej(err)})		
 	})
 }
 
-const tasks = {addUUID,getUserVen,saveDoc,getDocByID}
+//updates a doc based on _id and _rev 
+const updateDoc = (doc) => {
+	const 
+		body = JSON.stringify(doc),
+		method = 'PUT',
+		headers = {
+			'Content-Type': 'application/json',	
+			'Content-Length': `${body.length}`	
+		}
+		
+	return new Promise((res,rej) => {
+		dbRequest(options(method,headers),body)
+			.then((data) => {
+				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(new Error(data))
+			})
+			.catch((err) => { console.log('Update Err'), rej(err)})		
+	})
+}
+const tasks = {addUUID,getUserVen,createDoc,updateDoc,getDocByID}
 
 module.exports =  tasks
