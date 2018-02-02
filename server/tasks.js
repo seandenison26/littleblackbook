@@ -15,8 +15,7 @@ const dbRequest = (options, body = null) => {
 			data.setEncoding('utf8')
 			data.on('data', c => rawData += c)
 			data.on('end',() => { 	
-			console.log(JSON.parse(rawData))
-			RES(rawData)
+			RES(JSON.parse(rawData))
 			})
 			data.on('error', (e) => rej(e))	
 		})
@@ -59,9 +58,14 @@ const addUUID = (objs) => {
 //get single document by ID 
 const getDocByID = (id) => {
 	const url = `http:\/\/${DB}/${id}`
+				console.log(url)
 	return new Promise((res,rej) => {
 		queryDB(url)
-			.then(res)
+			.then((doc) =>  {
+				console.log(doc)
+				res(doc)
+			}
+			)
 			.catch(rej)		
 	})
 }
@@ -87,9 +91,9 @@ const saveDoc = (doc) => {
 		}
 	return new Promise((res,rej) => {
 		dbRequest(options(method,headers),body).then((data) => {
-				data.ok === true ? res(doc) : rej(doc)
+				data.ok === true ? res(doc) : rej(data)
 			})
-			.catch(rej)		
+			.catch((err) => { console.log('Save Err'), rej(err)})		
 	})
 }
 
