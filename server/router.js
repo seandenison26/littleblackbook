@@ -37,12 +37,12 @@ router.post('/api/getUUIDs', (req, res) => {
 router.post('/api/createDoc', (req, res) => {
 	tasks.addUUID(Array.of(req.body))
 		.then((docs) => tasks.saveDoc(docs[0]))
+		.then((doc) => tasks.getDocByID(doc.id))
 		.then((doc) => { 
-			console.log("fired")
+			console.log(doc)
 			res.send(doc)
 		})
 		.catch((err) => res.send(err));
 });
 //exports the router
 module.exports = router; 
-

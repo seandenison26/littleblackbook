@@ -56,6 +56,16 @@ const addUUID = (objs) => {
 	})
 }
 
+//get single document by ID 
+const getDocByID = (id) => {
+	const url = `http:\/\/${DB}/${id}`
+	return new Promise((res,rej) => {
+		queryDB(url)
+			.then(res)
+			.catch(rej)		
+	})
+}
+
 //gets all userVen from user id
 const getUserVen = (user) => {
 	const url = `http:\/\/${DB}/_design/getVen/_view/getUserVen?key=\"${user}\"`
@@ -77,12 +87,12 @@ const saveDoc = (doc) => {
 		}
 	return new Promise((res,rej) => {
 		dbRequest(options(method,headers),body).then((data) => {
-				data.ok === true ? res(body) : rej(doc)
+				data.ok === true ? res(doc) : rej(doc)
 			})
 			.catch(rej)		
 	})
 }
 
-const tasks = {addUUID,getUserVen,saveDoc}
+const tasks = {addUUID,getUserVen,saveDoc,getDocByID}
 
 module.exports =  tasks
