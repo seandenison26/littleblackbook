@@ -1,0 +1,1 @@
+CURL -H "Content-Type: application/json" -X PUT "http://localhost:3000/api/updateDoc" -d {\"collection\":\"test\",\"updated\":\"true\",\"_id\":\"eb13c689bc4f980c47224f927d02ba9b\",\"_rev\":\"1-16aa2055f7b04b10d8a3389e4a230cd2\"} 

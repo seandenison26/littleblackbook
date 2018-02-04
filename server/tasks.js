@@ -5,18 +5,21 @@ const
 		hostname:'127.0.0.1',
 		port: '5984',
 		path: '/lbb_dev',
-		auth: `Basic ${Buffer.from('lbbDev:secret').toString('base64')}`
+		auth: `Basic ${new Buffer.from('lbbDev:secret').toString('base64')}`
 	}
 //desired middle ware, 
 //returns http request promise
 const dbRequest = (options, body = null) => {
-	return new Promise((RES,rej) => {
+	console.log('fired')
+	return new Promise((res,rej) => {
 		const req = http.request(options, (data) => {
+			console.log(options)
 			let rawData = '' 
 			data.setEncoding('utf8')
 			data.on('data', c => rawData += c)
 			data.on('end',() => { 	
-			RES(JSON.parse(rawData))
+			res(JSON.parse(rawData))
+			console.log(rawData)
 			})
 			data.on('error', (e) => rej(e))	
 		})
@@ -27,7 +30,9 @@ const dbRequest = (options, body = null) => {
 }
 
 const options = (method, headers) => {
-	return Object.assign(dbOptions, {method,headers})
+	let h =  Object.assign(headers,{"Authorization":dbOptions.auth})
+	console.log(h)
+	return Object.assign(dbOptions, {method,headers:h})
 }	
 //performs a get request to the DB and returns a JSON view
 const queryDB = (url) => {
@@ -39,7 +44,7 @@ const queryDB = (url) => {
 			view.on('end',() => { 	
 			res(JSON.parse(rawData))
 			})
-			view.on('error', (e) => rej(e))	
+			view.on('error', (e) => {console.log(`$QUERY ERROR {e}`), rej(e)})	
 		})
 	})
 }
@@ -111,7 +116,7 @@ const updateDoc = (doc) => {
 	return new Promise((res,rej) => {
 		dbRequest(options(method,headers),body)
 			.then((data) => {
-				console.log(data)	
+				console.log(`Data is: ${data}`)
 				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(data)
 			})
 			.catch((err) => { console.log('Update Err'), rej(err)})		

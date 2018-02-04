@@ -48,12 +48,12 @@ router.post('/api/createDoc', (req, res) => {
 
 //updated a doc
 router.put('/api/updateDoc', (req, res) => {
-	console.log(req.body)
 	tasks.updateDoc(req.body)
 		.then((newDoc) => {
+			console.log('SUCCESS')
 			res.send(newDoc)
 		})
-		.catch((err) => res.send(err));
+		.catch((err) => {console.log(err),res.send(err)});
 });
 //exports the router
 module.exports = router;
