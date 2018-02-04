@@ -10,7 +10,7 @@ const
 //desired middle ware, 
 //returns http request promise
 const dbRequest = (options, body = null) => {
-	console.log('fired')
+	console.log(`Req:${JSON.stringify(options)}`)
 	return new Promise((res,rej) => {
 		const req = http.request(options, (data) => {
 			console.log(options)
@@ -29,10 +29,10 @@ const dbRequest = (options, body = null) => {
 	})
 }
 
-const options = (method, headers) => {
-	let h =  Object.assign(headers,{"Authorization":dbOptions.auth})
-	console.log(h)
-	return Object.assign(dbOptions, {method,headers:h})
+const reqOptions = (method, headers, path = dbOptions.path) => {
+	let 
+		h = Object.assign(headers,{"Authorization":dbOptions.auth})
+	return Object.assign(dbOptions, {method,headers:h,path})
 }	
 //performs a get request to the DB and returns a JSON view
 const queryDB = (url) => {
@@ -96,7 +96,7 @@ const createDoc = (doc) => {
 			'Content-Length': `${body.length}`	
 		}
 	return new Promise((res,rej) => {
-		dbRequest(options(method,headers),body)
+		dbRequest(reqOptions(method,headers),body)
 			.then((data) => {
 				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(new Error(data))
 			})
@@ -106,7 +106,8 @@ const createDoc = (doc) => {
 
 //updates a doc based on _id and _rev 
 const updateDoc = (doc) => {
-	const 
+	const
+       		path = `${dbOptions.path}/${doc._id}/`	
 		body = JSON.stringify(doc),
 		method = 'PUT',
 		headers = {
@@ -114,7 +115,7 @@ const updateDoc = (doc) => {
 			'Content-Length': `${body.length}`	
 		}
 	return new Promise((res,rej) => {
-		dbRequest(options(method,headers),body)
+		dbRequest(reqOptions(method,headers,path),body)
 			.then((data) => {
 				console.log(`Data is: ${data}`)
 				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(data)
