@@ -30,9 +30,10 @@ const dbRequest = (options, body = null) => {
 }
 
 const reqOptions = (method, headers, path = dbOptions.path) => {
-	let 
-		h = Object.assign(headers,{"Authorization":dbOptions.auth})
-	return Object.assign(dbOptions, {method,headers:h,path})
+	let
+       		newOptions = JSON.parse(JSON.stringify(dbOptions))	
+		h = Object.assign(headers,{"Authorization":newOptions.auth})
+	return Object.assign(newOptions, {method,headers:h,path:newOptions.path + path})
 }	
 //performs a get request to the DB and returns a JSON view
 const queryDB = (url) => {
@@ -107,7 +108,7 @@ const createDoc = (doc) => {
 //updates a doc based on _id and _rev 
 const updateDoc = (doc) => {
 	const
-       		path = `${dbOptions.path}/${doc._id}/`	
+       		path = `/${doc._id}/`	
 		body = JSON.stringify(doc),
 		method = 'PUT',
 		headers = {
@@ -117,7 +118,6 @@ const updateDoc = (doc) => {
 	return new Promise((res,rej) => {
 		dbRequest(reqOptions(method,headers,path),body)
 			.then((data) => {
-				console.log(`Data is: ${data}`)
 				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(data)
 			})
 			.catch((err) => { console.log('Update Err'), rej(err)})		
