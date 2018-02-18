@@ -13,7 +13,6 @@ Next Steps
 """"""""""
 -write postDoctoDB function
 
-
 -Province System
 
 -Build Flux action creator
@@ -38,6 +37,13 @@ Game - auto roll age points of all NPCs ina game?
 Tag system for searching later?
 
 DMs being able to pick characters from the wiki (search by author?) and just add them to a game. 
+
+Functional Ramda 
+"""""""
+assoc path
+dissoc
+lens path
+over
 
 CouchDB
 """""""

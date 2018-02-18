@@ -1,4 +1,5 @@
 import React from "react"
+import * as R from 'ramda'
 import {changeVenView,updateVenView, createDoc} from "../actions.js"
 import "./VenSheet.css"
 /*	Components Needed
@@ -62,10 +63,15 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
 const AspectPage = ({aspects,dispatchAction,VenViewInputChange,newAspectName,newAspect}) => {
-	const AspectPageChange = (e) => {
+	const AspectPageChange = (key) => (e) => {
 		const aspectsChange = (id,value) => {
-			if(id === "newAspectName") {
-				VenViewInputChange(['newAspectName'],value)
+			if(key === "newAspectName") {
+				VenViewInputChange([key],value)
+			}
+			else {
+				VenViewInputChange(['aspects'],aspects.map(aspect =>
+					aspect._id === id ? R.assocPath([key],value,aspect) : aspect
+				))
 			}
 		}
 		let
@@ -76,10 +82,10 @@ const AspectPage = ({aspects,dispatchAction,VenViewInputChange,newAspectName,new
 	const AspectCard = ({aspect, key}) => {
 		return 	<div id={aspect._id} className="aspect">
 				<h2>{aspect.season || "Aspect"}</h2>
-				<h3>Name:<input onChange={AspectPageChange(aspect)} value={aspect.name}/></h3>
-				<p>Ivoke: {aspect.invoke}</p>
-				<p>Tag: {aspect.tag}</p>
-				<p>Compel: {aspect.compel}</p>
+				<h3>Name:<input onChange={AspectPageChange('name')} value={aspect.name}/></h3>
+				<p>Ivoke: <input onChange={AspectPageChange('invoke')}  value={aspect.invoke}/></p>
+				<p>Tag:  <input onChange={AspectPageChange('tag')}  value={aspect.tag}/></p>
+				<p>Compel: <input onChange={AspectPageChange('compel')} value={aspect.compel}/></p>
 			</div>
 	}
 	
@@ -91,7 +97,7 @@ const AspectPage = ({aspects,dispatchAction,VenViewInputChange,newAspectName,new
 
 	return 	<div id="aspects">
 				{aspects.length > 0 ? <AspectCards aspects={aspects}/>: null}
-				<input id="newAspectName" onChange={AspectPageChange} value={newAspectName}/>
+				<input id="newAspectName" onChange={AspectPageChange('newAspectName')} value={newAspectName}/>
 				<button onClick={createAspect}>New Aspect</button>
 		</div>	
 }	

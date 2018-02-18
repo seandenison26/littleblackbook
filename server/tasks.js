@@ -11,7 +11,7 @@ const
 //desired middle ware, 
 //returns http request promise
 const dbRequest = (options, body = null) => {
-	console.log(`Req:${JSON.stringify(options)}`)
+	console.log(`Req: ${options.method} `, body) 
 	return new Promise((res,rej) => {
 		const req = http.request(options, (data) => {
 			console.log(options)
