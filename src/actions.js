@@ -1,4 +1,4 @@
-import {R} from 'ramda'
+import * as R from 'ramda'
 //Needed Constants
 	const 
 		virtues = ["strength","cunning","courage","beauty","wisdom","prowess"],
@@ -117,51 +117,14 @@ export const getUserVen = (user) => {
 	})	
 }
 
-export const changeVenView = (ven) => {
-	return {type:"CHANGE_VEN_VIEW", venView:ven}
+//changes the VenView state object
+export const changeVenView = (path,value,view) => {
+	return {type:"CHANGE_VEN_VIEW", venView:R.assocPath(path,value,view)}
 }	
 
 //{type:"UPDATE_VIEW_VEN", data:{Ven to be copied} }: Will create a second copy of the desired ven object to be edited by the user. How to set this up so that it can be used by ven sheet for changing to a new ven? 
 export const updateVenView = (ven,key,input) => {
 	let newView = ven
-	const getVenObj = (obj) => {
-		if(venViewFirst.indexOf(obj) > -1) {
-			return obj
-		}
-		else if(highConcept.indexOf(obj) > -1) {
-			return "highConcept"
-		}
-		else if(virtues.indexOf(obj) > -1) {
-			return "virtues"
-		}
-		else if(stylePoints.indexOf(obj) > -1) {
-			return "stylePoints"
-		}
-		else {
-			return new Error('Key not found on VenObject') 
-		}
-	}
-	let field = getVenObj(key)	
-	switch(field) {
-		case "virtues": {
-			newView.virtues[key] = input		
-			break
-		}
-		case "highConcept": {
-			newView.highConcept[key] = input		
-			break
-		}
-		case "stylePoints": {
-			newView.stylePoints[key] = input		
-			break
-		}
-		case Error: {
-			return obj;					
-			break
-		}
-		default: {
-			newView[key] = input
-		}	
-	}	
 	return {type:"CHANGE_VEN_VIEW", venView:newView}
 }
+

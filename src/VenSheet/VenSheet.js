@@ -1,5 +1,5 @@
 import React from "react"
-import {updateVenView, createDoc} from "../actions.js"
+import {changeVenView,updateVenView, createDoc} from "../actions.js"
 import "./VenSheet.css"
 /*	Components Needed
  *		VenSheet 
@@ -21,7 +21,7 @@ const VirtueBar = ({virtues,VenViewInputChange}) => {
 	let
 	       	virtue = e.target.id,
 	       	input = e.target.value
-		VenViewInputChange(virtue,input)
+		VenViewInputChange(['virtues',virtue],input)
 	}
 	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`${v}`} id={`${v}`} onChange={VirtueChange} defaultValue={virtues[v]}>
 												<option value="W">W</option>
@@ -41,9 +41,9 @@ const VirtueBar = ({virtues,VenViewInputChange}) => {
 const HighConcept = ({highConcept,VenViewInputChange}) => {
 	const HighConceptChange = (e) => {
 	let
-		highConcept = e.target.id,
+		concept = e.target.id,
 	       	input = e.target.value
-		VenViewInputChange(highConcept,input)
+		VenViewInputChange(['highConcept',concept],input)
 	}
 	return 	<div id="highConceptTab">
 			<h2>High Concept</h2>	
@@ -134,9 +134,9 @@ export default function VenSheet({ven, dispatchAction, author}) {
 		}
 	}
 
-
-	const VenViewInputChange = (key,input) => {
-		dispatchAction(updateVenView(ven,key,input))
+	const VenViewInputChange = (path,input) => {
+		dispatchAction(changeVenView(path,input,ven))
+		//dispatchAction(updateVenView(ven,key,input))
 	}
 
 	return	<div id="venSheet">
