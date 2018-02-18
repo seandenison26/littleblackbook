@@ -7,6 +7,7 @@ const
 		path: '/lbb_dev',
 		auth: `Basic ${new Buffer.from('lbbDev:secret').toString('base64')}`
 	}
+
 //desired middle ware, 
 //returns http request promise
 const dbRequest = (options, body = null) => {
@@ -29,6 +30,7 @@ const dbRequest = (options, body = null) => {
 	})
 }
 
+//creates http request options
 const reqOptions = (method, headers, path = dbOptions.path) => {
 	let
        		newOptions = JSON.parse(JSON.stringify(dbOptions))	

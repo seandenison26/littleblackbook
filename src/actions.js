@@ -1,3 +1,4 @@
+import {R} from 'ramda'
 //Needed Constants
 	const 
 		virtues = ["strength","cunning","courage","beauty","wisdom","prowess"],
