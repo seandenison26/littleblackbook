@@ -61,11 +61,11 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
-const AspectPage = ({aspects, dispatchAction,VenViewInputChange, newAspectName, newAspect}) => {
+const AspectPage = ({aspects,dispatchAction,VenViewInputChange,newAspectName,newAspect}) => {
 	const AspectPageChange = (e) => {
 		const aspectsChange = (id,value) => {
 			if(id === "newAspectName") {
-				VenViewInputChange("newAspectName",value)
+				VenViewInputChange(['newAspectName'],value)
 			}
 		}
 		let
@@ -136,7 +136,6 @@ export default function VenSheet({ven, dispatchAction, author}) {
 
 	const VenViewInputChange = (path,input) => {
 		dispatchAction(changeVenView(path,input,ven))
-		//dispatchAction(updateVenView(ven,key,input))
 	}
 
 	return	<div id="venSheet">
