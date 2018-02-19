@@ -5,7 +5,8 @@ const
 		hostname:'127.0.0.1',
 		port: '5984',
 		path: '/lbb_dev',
-		auth: `Basic ${new Buffer.from('lbbDev:secret').toString('base64')}`
+		Authorization: `Basic ${new Buffer.from('lbbDev:secret').toString('base64')}`,
+		Referer: 'localhost'
 	}
 
 //desired middle ware, 
@@ -34,7 +35,7 @@ const dbRequest = (options, body = null) => {
 const reqOptions = (method, headers, path = dbOptions.path) => {
 	let
        		newOptions = JSON.parse(JSON.stringify(dbOptions))	
-		h = Object.assign(headers,{"Authorization":newOptions.auth})
+		h = Object.assign(headers,{"Authorization":newOptions.Authorization})
 	return Object.assign(newOptions, {method,headers:h,path:newOptions.path + path})
 }	
 //performs a get request to the DB and returns a JSON view
@@ -89,26 +90,9 @@ const getUserVen = (user) => {
 	})
 }
 
-//saves a doc to the db
-const createDoc = (doc) => {
-	const 
-		body = JSON.stringify(doc),
-		method = 'POST',
-		headers = {
-			'Content-Type': 'application/json',	
-			'Content-Length': `${body.length}`	
-		}
-	return new Promise((res,rej) => {
-		dbRequest(reqOptions(method,headers),body)
-			.then((data) => {
-				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(new Error(data))
-			})
-			.catch((err) => { console.log('Save Err'), rej(err)})		
-	})
-}
 
 //updates a doc based on _id and _rev 
-const updateDoc = (doc) => {
+const putDoc = (doc) => {
 	const
        		path = `/${doc._id}/`	
 		body = JSON.stringify(doc),
@@ -125,6 +109,6 @@ const updateDoc = (doc) => {
 			.catch((err) => { console.log('Update Err'), rej(err)})		
 	})
 }
-const tasks = {addUUID,getUserVen,createDoc,updateDoc,getDocByID}
+const tasks = {addUUID,getUserVen,putDoc,getDocByID}
 
 module.exports =  tasks

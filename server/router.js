@@ -39,7 +39,7 @@ router.post('/api/getUUIDs', (req, res) => {
 router.post('/api/createDoc', (req, res) => {
 	console.log('Creating')
 	tasks.addUUID(Array.of(req.body))
-	.then((docs) => tasks.createDoc(docs[0]))
+	.then((docs) => tasks.putDoc(docs[0]))
 	.then((doc) => { res.send(doc) })
 	.catch((err) => {
 		console.log(err)
@@ -49,7 +49,7 @@ router.post('/api/createDoc', (req, res) => {
 
 //updated a doc
 router.put('/api/updateDoc', (req, res) => {
-	tasks.updateDoc(req.body)
+	tasks.putDoc(req.body)
 		.then((newDoc) => {
 			console.log('SUCCESS')
 			res.send(newDoc)
