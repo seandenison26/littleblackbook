@@ -119,8 +119,8 @@ export const getUserVen = (user) => {
 }
 
 //changes the VenView state object
-export const changeVenView = (path,value,view) => {
-	return {type:"CHANGE_VEN_VIEW", venView:R.assocPath(path,value,view)}
+export const changeVenView = (newView) => {
+	return {type:"CHANGE_VEN_VIEW", venView:newView}
 }	
 
 //{type:"UPDATE_VIEW_VEN", data:{Ven to be copied} }: Will create a second copy of the desired ven object to be edited by the user. How to set this up so that it can be used by ven sheet for changing to a new ven? 

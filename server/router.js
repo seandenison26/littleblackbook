@@ -10,7 +10,7 @@ var router = express.Router();
 var rootDir = __dirname + '/../' 
 
 //routes the react app
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
 	res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
 });
 

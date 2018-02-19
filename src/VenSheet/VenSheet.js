@@ -141,7 +141,7 @@ export default function VenSheet({ven, dispatchAction, author}) {
 	}
 
 	const VenViewInputChange = (path,input) => {
-		dispatchAction(changeVenView(path,input,ven))
+		dispatchAction(changeVenView(R.assocPath(path,input,ven)))
 	}
 
 	return	<div id="venSheet">
