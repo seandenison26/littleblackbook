@@ -14,9 +14,9 @@ const returnsJSON = (data) => {
 	})
 }
 
-export const createDoc = (collection, author = null, name) => {
+export const createDoc = (collection) => (author = null, name) => {
 	let newDoc, url = `api/createDoc/` 
-		
+	console.log(collection)	
 	switch (collection) {
 		case "aspect": {
 			newDoc = {
@@ -47,7 +47,7 @@ export const createDoc = (collection, author = null, name) => {
 		    method: "POST",
 		    body: JSON.stringify(newDoc)	
 	}
-	console.log(newDo)
+	console.log(newDoc)
 	return new Promise((res,rej) => {
 		fetch(url,req).then(response => response.json())
 		.then((doc) => {
