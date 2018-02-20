@@ -49,11 +49,9 @@ export const createDoc = (collection, author = null, name) => {
 		    method: "POST",
 		    body: JSON.stringify(newDoc)	
 	}
-	console.log(newDoc)
 	return new Promise((res,rej) => {
 		fetch(url,req).then(response => response.json())
 		.then(res)
-	.catch(console.log)
 	})	
 }
 

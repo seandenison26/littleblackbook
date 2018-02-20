@@ -62,7 +62,7 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
-const AspectPage = ({aspects,dispatchAction,VenViewInputChange,newAspectName,newAspect}) => {
+const AspectPage = ({aspects,VenViewInputChange,newAspectName,newAspect}) => {
 	const AspectPageChange = (key) => (e) => {
 		const aspectsChange = (id,value) => {
 			if(key === "newAspectName") {
@@ -80,7 +80,11 @@ const AspectPage = ({aspects,dispatchAction,VenViewInputChange,newAspectName,new
 			aspectsChange(id,value)
 	}
 	const AspectCard = ({aspect, key}) => {
-		return 	<div id={aspect._id} className="aspect">
+		console.log(aspect)	
+		console.log(key)	
+		
+		return 	<div>
+				id={aspect._id} className="aspect">
 				<h2>{aspect.season || "Aspect"}</h2>
 				<h3>Name:<input onChange={AspectPageChange('name')} value={aspect.name}/></h3>
 				<p>Ivoke: <input onChange={AspectPageChange('invoke')}  value={aspect.invoke}/></p>
@@ -92,7 +96,7 @@ const AspectPage = ({aspects,dispatchAction,VenViewInputChange,newAspectName,new
 	const AspectCards = ({aspects}) => {return aspects.map(a => <AspectCard key={a._id} aspect={a}/>)} 
 	
 	const createAspect = (e) => {
-		console.log(newAspect(document.getElementById("newAspectName").value))
+		newAspect(document.getElementById("newAspectName").value)
 	}
 
 	return 	<div id="aspects">
@@ -133,8 +137,7 @@ export default function VenSheet({ven, dispatchAction, author}) {
 			var doc = await createDoc(type,author,name)
 			switch (type) {
 				case "aspect": {
-					//dispatchAction(updateVenView(ven,"aspects",ven.aspects.concat(doc)))
-					console.log(doc)
+					VenViewInputChange(['aspects'],ven.aspects.concat(doc))	
 				}	
 			}
 		}
