@@ -14,10 +14,10 @@ const returnsJSON = (data) => {
 	})
 }
 
-export const createDoc = (collection) => (author = null, name) => {
+export const createDoc = (collection, author = null, name) => {
 	let newDoc, url = `api/createDoc/` 
-	console.log(collection)	
 	switch (collection) {
+
 		case "aspect": {
 			newDoc = {
 				author: author,
@@ -27,6 +27,7 @@ export const createDoc = (collection) => (author = null, name) => {
 				invoke: "",
 				compel: ""
 			}
+			break
 		}
 		case "ven": {
 			newDoc = {
@@ -37,6 +38,7 @@ export const createDoc = (collection) => (author = null, name) => {
 				},
 				aspects: []
 			}
+			break
 		}		
 	}
 	let req = {
@@ -50,13 +52,10 @@ export const createDoc = (collection) => (author = null, name) => {
 	console.log(newDoc)
 	return new Promise((res,rej) => {
 		fetch(url,req).then(response => response.json())
-		.then((doc) => {
-			res(doc)
-		})
-		.catch(console.log)
-
+		.then(res)
+	.catch(console.log)
 	})	
-}	
+}
 
 //Helper OBject, createVenObject, creates a blank VenView to be filled in.
 const createVenObject = (ven = {}) => {
@@ -124,7 +123,7 @@ export const changeVenView = (newView) => {
 }	
 
 //{type:"UPDATE_VIEW_VEN", data:{Ven to be copied} }: Will create a second copy of the desired ven object to be edited by the user. How to set this up so that it can be used by ven sheet for changing to a new ven? 
-export const updateVenView = (ven,key,input) => {
+export const saveVenView = (ven,key,input) => {
 	let newView = ven
 	return {type:"CHANGE_VEN_VIEW", venView:newView}
 }

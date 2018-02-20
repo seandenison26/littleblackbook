@@ -41,8 +41,6 @@ const App = ({data,util}) => {
 				<button onClick={getVen}>Get Ven</button>	
 			</div>
 	}
-	
-	
 
 	return  <div id="viewContainer">
 			<VenSelectBar ven={data.ven}/>

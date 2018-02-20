@@ -1,6 +1,6 @@
 import React from "react"
 import * as R from 'ramda'
-import {changeVenView,updateVenView, createDoc} from "../actions.js"
+import {changeVenView,saveVenView, createDoc} from "../actions.js"
 import "./VenSheet.css"
 /*	Components Needed
  *		VenSheet 
