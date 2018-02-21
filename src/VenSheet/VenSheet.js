@@ -40,23 +40,19 @@ const VirtueBar = ({virtues,VenViewInputChange}) => {
 
 
 const HighConcept = ({highConcept,VenViewInputChange}) => {
-	const HighConceptChange = (e) => {
-	let
-		concept = e.target.id,
-	       	input = e.target.value
-		VenViewInputChange(['highConcept',concept],input)
-	}
+	const HighConceptChange = (e) => { VenViewInputChange(['highConcept',e.target.dataset.path],e.target.value) }
+
 	return 	<div id="highConceptTab">
 			<h2>High Concept</h2>	
-			<p>House: <input id="house" type="text" onChange={HighConceptChange} value={highConcept.house} /></p>				
-			<p>Family Name: <input id="familyName" type="text" onChange={HighConceptChange} value={highConcept.familyName} /></p>				
-			<p>Public Name: <input id="publicName" type="text" onChange={HighConceptChange} value={highConcept.publicName} /></p>				
-			<p>Public Meaning: <input id="publicMeaning" onChange={HighConceptChange} value={highConcept.publicMeaning} /></p>				
-			<p>Secret Name: <input id="secretName" type="text" onChange={HighConceptChange} value={highConcept.secretName} /></p>				
-			<p>Age: <input id="age" type="text" onChange={HighConceptChange} value={highConcept.age} /></p>				
-			<p>Family: <input id="family" onChange={HighConceptChange} type="text" value={highConcept.family} /></p>				
-			<p>Title: <input id="title" onChange={HighConceptChange} value={highConcept.title} /></p>				
-			<p>Age Points: <input id="agepoints" onChange={HighConceptChange} value={highConcept.agepoints} /></p>				
+			<p>House: <input id='highConceptTab.house' data-path="house" type="text" onChange={HighConceptChange} value={highConcept.house} /></p>				
+			<p>Family Name: <input id='highConceptTab.familyName' data-path="familyName" type="text" onChange={HighConceptChange} value={highConcept.familyName} /></p>				
+			<p>Public Name: <input  id='highConceptTab.publicName'  data-path="publicName" type="text" onChange={HighConceptChange} value={highConcept.publicName} /></p>				
+			<p>Public Meaning: <input data-path="publicMeaning" onChange={HighConceptChange} value={highConcept.publicMeaning} /></p>				
+			<p>Secret Name: <input data-path="secretName" type="text" onChange={HighConceptChange} value={highConcept.secretName} /></p>				
+			<p>Age: <input data-path="age" type="text" onChange={HighConceptChange} value={highConcept.age} /></p>				
+			<p>Family: <input data-path="family" onChange={HighConceptChange} type="text" value={highConcept.family} /></p>				
+			<p>Title: <input data-path="title" onChange={HighConceptChange} value={highConcept.title} /></p>				
+			<p>Age Points: <input data-path="agepoints" onChange={HighConceptChange} value={highConcept.agepoints} /></p>				
 		</div>	
 }	
 
@@ -83,14 +79,13 @@ const AspectPage = ({aspects,VenViewInputChange,newAspectName,newAspect}) => {
 		console.log(aspect)	
 		console.log(key)	
 		
-		return 	<div>
-				id={aspect._id} className="aspect">
-				<h2>{aspect.season || "Aspect"}</h2>
-				<h3>Name:<input onChange={AspectPageChange('name')} value={aspect.name}/></h3>
-				<p>Ivoke: <input onChange={AspectPageChange('invoke')}  value={aspect.invoke}/></p>
-				<p>Tag:  <input onChange={AspectPageChange('tag')}  value={aspect.tag}/></p>
-				<p>Compel: <input onChange={AspectPageChange('compel')} value={aspect.compel}/></p>
-			</div>
+	return 	<div id={aspect._id} className="aspect">
+			<h2>{aspect.season || "Aspect"}</h2>
+			<h3>Name:<input onChange={AspectPageChange('name')} value={aspect.name}/></h3>
+			<p>Ivoke: <input onChange={AspectPageChange('invoke')}  value={aspect.invoke}/></p>
+			<p>Tag:  <input onChange={AspectPageChange('tag')}  value={aspect.tag}/></p>
+			<p>Compel: <input onChange={AspectPageChange('compel')} value={aspect.compel}/></p>
+		</div>
 	}
 	
 	const AspectCards = ({aspects}) => {return aspects.map(a => <AspectCard key={a._id} aspect={a}/>)} 
