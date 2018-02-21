@@ -20,18 +20,18 @@ const VenHeader = ({ven}) => {
 const VirtueBar = ({virtues,VenViewInputChange}) => {
 	const VirtueChange = (e) => {
 	let
-	       	virtue = e.target.id,
+	       	virtue = e.target.dataset.path,
 	       	input = e.target.value
 		VenViewInputChange(['virtues',virtue],input)
 	}
-	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`${v}`} id={`${v}`} onChange={VirtueChange} defaultValue={virtues[v]}>
-												<option value="W">W</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-												<option value="6">6</option>
-												<option value="7">7</option>
+	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`virtue.${v}`} data-path={`${v}`} onChange={VirtueChange} defaultValue={virtues[v]}>
+												<option key={`W${v}`} value="W">W</option>
+												<option key={`2${v}`} value="2">2</option>
+												<option key={`3${v}`} value="3">3</option>
+												<option key={`4${v}`} value="4">4</option>
+												<option key={`5${v}`} value="5">5</option>
+												<option key={`6${v}`} value="6">6</option>
+												<option key={`7${v}`} value="7">7</option>
 											</select></li>})
 	return  <div id="virtuebar">
 			{VirtueTabs}
