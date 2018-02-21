@@ -25,6 +25,7 @@ export const createDoc = (collection, author = null, name) => {
 				season: null,
 				name: name,
 				invoke: "",
+				tag: "",
 				compel: ""
 			}
 			break

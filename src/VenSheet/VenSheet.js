@@ -60,29 +60,32 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
 const AspectPage = ({aspects,VenViewInputChange,newAspectName,newAspect}) => {
 	const AspectPageChange  = (e) => {
-		const aspectsChange = (path,value) => {
+		const aspectsChange = (path,value,id) => {
 			if(path === "newAspectName") {
 				VenViewInputChange([path],value)
 			}
 			else {
-				VenViewInputChange(['aspects'],aspects.map(aspect =>
-					aspect._id === e.target.id ? R.assocPath([path],value,aspect) : aspect
-				))
+				console.log(aspects)	
+				console.log(aspects.map(aspect => aspect._id === e.target.id ? R.assocPath([path],value,aspect) : aspect))
+				VenViewInputChange(['aspects'],aspects.map(aspect => aspect._id === id ? R.assocPath([path],value,aspect) : aspect))
 			}
 		}
 		let
+		
 			path = e.target.dataset.path,
 	       		value = e.target.value
-			aspectsChange(path,value)
+	       		_id = e.target.dataset.id
+			console.log(path,value)
+			aspectsChange(path,value,_id)
 	}
 	const AspectCard = ({aspect}) => {
 	
 	return 	<div className="aspect">
 			<h2 key={`${aspect._id}.season`} >{aspect.season || "Aspect"}</h2>
-			<h3 key={`${aspect._id}.name`} >Name:<input data-path="name" onChange={AspectPageChange} key={`${aspect._id}.name.input`} value={aspect.name}/></h3>
-			<p key={`${aspect._id}.invoke`} >Ivoke: <input data-path="invoke" key={`${aspect._id}.invoke.input`} onChange={AspectPageChange}  value={aspect.invoke}/></p>
-			<p key={`${aspect._id}.tag`} >Tag:  <input data-path="tag" key={`${aspect._id}.tag.input`} onChange={AspectPageChange}  value={aspect.tag}/></p>
-			<p key={`${aspect._id}.compel`} >Compel: <input data-path="compel" key={`${aspect._id}.compel.input`} onChange={AspectPageChange} value={aspect.compel}/></p>
+			<h3 key={`${aspect._id}.name`} >Name:<input data-path="name" data-id={`${aspect._id}`} onChange={AspectPageChange} key={`${aspect._id}.name.input`} value={aspect.name}/></h3>
+			<p key={`${aspect._id}.invoke`} >Ivoke: <input data-path="invoke"data-id={`${aspect._id}`}  key={`${aspect._id}.invoke.input`} onChange={AspectPageChange}  value={aspect.invoke}/></p>
+			<p key={`${aspect._id}.tag`} >Tag:  <input data-path="tag" data-id={`${aspect._id}`}  key={`${aspect._id}.tag.input`} onChange={AspectPageChange}  value={aspect.tag}/></p>
+			<p key={`${aspect._id}.compel`} >Compel: <input data-path="compel" data-id={`${aspect._id}`} key={`${aspect._id}.compel.input`} onChange={AspectPageChange} value={aspect.compel}/></p>
 		</div>
 	}
 	
@@ -92,8 +95,8 @@ const AspectPage = ({aspects,VenViewInputChange,newAspectName,newAspect}) => {
 		newAspect(document.getElementById("newAspectName").value)
 	}
 
-	return 	<div id="aspects">
-				{aspects.length > 0 ? <AspectCards aspects={aspects}/>: null}
+	return 	<div key="AspectCards">
+				{aspects.length > 0 ? <AspectCards key="AspectCards" aspects={aspects}/>: null}
 				<input data-path="newAspectName" id="newAspectName" onChange={AspectPageChange} value={newAspectName}/>
 				<button onClick={createAspect}>New Aspect</button>
 		</div>	
