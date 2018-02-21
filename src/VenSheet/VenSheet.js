@@ -24,7 +24,7 @@ const VirtueBar = ({virtues,VenViewInputChange}) => {
 	       	input = e.target.value
 		VenViewInputChange(['virtues',virtue],input)
 	}
-	const VirtueTabs = Object.keys(virtues).map(v => {return <li>{v.toUpperCase()}: <select key={`virtue.${v}`} data-path={`${v}`} onChange={VirtueChange} defaultValue={virtues[v]}>
+	const VirtueTabs = Object.keys(virtues).map(v => {return <li key={`virtue.${v}`}>{v.toUpperCase()}: <select  data-path={`${v}`} onChange={VirtueChange} defaultValue={virtues[v]}>
 												<option key={`W${v}`} value="W">W</option>
 												<option key={`2${v}`} value="2">2</option>
 												<option key={`3${v}`} value="3">3</option>
@@ -61,12 +61,12 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 const AspectPage = ({aspects,VenViewInputChange,newAspectName,newAspect}) => {
 	const AspectPageChange  = (e) => {
 		const aspectsChange = (path,value) => {
-			if(key === "newAspectName") {
-				VenViewInputChange([key],value)
+			if(path === "newAspectName") {
+				VenViewInputChange([path],value)
 			}
 			else {
 				VenViewInputChange(['aspects'],aspects.map(aspect =>
-					aspect._id === id ? R.assocPath([key],value,aspect) : aspect
+					aspect._id === e.target.id ? R.assocPath([path],value,aspect) : aspect
 				))
 			}
 		}
@@ -75,9 +75,9 @@ const AspectPage = ({aspects,VenViewInputChange,newAspectName,newAspect}) => {
 	       		value = e.target.value
 			aspectsChange(path,value)
 	}
-	const AspectCard = ({aspect, key}) => {
-		
-	return 	<div key={aspect._id} className="aspect">
+	const AspectCard = ({aspect}) => {
+	
+	return 	<div className="aspect">
 			<h2 key={`${aspect._id}.season`} >{aspect.season || "Aspect"}</h2>
 			<h3 key={`${aspect._id}.name`} >Name:<input data-path="name" onChange={AspectPageChange} key={`${aspect._id}.name.input`} value={aspect.name}/></h3>
 			<p key={`${aspect._id}.invoke`} >Ivoke: <input data-path="invoke" key={`${aspect._id}.invoke.input`} onChange={AspectPageChange}  value={aspect.invoke}/></p>
