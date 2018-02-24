@@ -41,7 +41,7 @@ export const testState = {
 		"agepoints": "34"
 	},
 	"devotions": [],
-	"aspects": [],
+	"aspects": [{"_id":"7b31112023f36a3863cc96067302206b","_rev":"1-967a00dff5e02add41819138abb3284d","name":"Blessed Is The Blood"}],
 	"contacts": [],
 	"friends": [],
 	"stylePoints": {

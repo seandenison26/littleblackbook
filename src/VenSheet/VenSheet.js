@@ -56,51 +56,53 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 		</div>	
 }	
 
+
+const AspectCard = ({aspect, AspectPageChange}) => {
+return 	<div key={aspect._id} className="aspect">
+		<h2 key={`${aspect._id}.season`} >{aspect.season}</h2>
+		<h3 key={`${aspect._id}.name`} >Name:<input type="text" data-path="name" data-id={`${aspect._id}`} onChange={AspectPageChange} key={`${aspect._id}.name.input`} value={aspect.name}/></h3>
+		<p key={`${aspect._id}.invoke`} >Ivoke: <input type="text" data-path="invoke" data-id={`${aspect._id}`}  key={`${aspect._id}.invoke.input`} onChange={AspectPageChange}  value={aspect.invoke}/></p>
+		<p key={`${aspect._id}.tag`} >Tag:  <input type="text" data-path="tag" data-id={`${aspect._id}`}  key={`${aspect._id}.tag.input`} onChange={AspectPageChange}  value={aspect.tag}/></p>
+		<p key={`${aspect._id}.compel`} >Compel: <input type="text" data-path="compel" data-id={`${aspect._id}`} key={`${aspect._id}.compel.input`} onChange={AspectPageChange} value={aspect.compel}/></p>
+	</div>
+}
 //New Aspect Button?
 //Treat Aspects like Twitter? I/T/C cap out at 140 chars?
 const AspectPage = ({aspects,VenViewInputChange,newAspectName,newAspect}) => {
+
 	const AspectPageChange  = (e) => {
 		const aspectsChange = (path,value,id) => {
 			if(path === "newAspectName") {
 				VenViewInputChange([path],value)
 			}
 			else {
-				console.log(aspects)	
-				console.log(aspects.map(aspect => aspect._id === e.target.id ? R.assocPath([path],value,aspect) : aspect))
-				VenViewInputChange(['aspects'],aspects.map(aspect => aspect._id === id ? R.assocPath([path],value,aspect) : aspect))
+				const changeLens = R.lensIndex(R.findIndex(R.propEq('_id',id))(aspects))
+				const changeAspect = (obj) => R.assocPath([path],value,obj) 
+				VenViewInputChange(['aspects'],R.over(changeLens,changeAspect,aspects)) 
 			}
 		}
 		let
-		
 			path = e.target.dataset.path,
-	       		value = e.target.value
-	       		_id = e.target.dataset.id
-			console.log(path,value)
+			value = e.target.value,
+			_id = e.target.dataset.id
 			aspectsChange(path,value,_id)
 	}
-	const AspectCard = ({aspect}) => {
 	
-	return 	<div className="aspect">
-			<h2 key={`${aspect._id}.season`} >{aspect.season || "Aspect"}</h2>
-			<h3 key={`${aspect._id}.name`} >Name:<input data-path="name" data-id={`${aspect._id}`} onChange={AspectPageChange} key={`${aspect._id}.name.input`} value={aspect.name}/></h3>
-			<p key={`${aspect._id}.invoke`} >Ivoke: <input data-path="invoke"data-id={`${aspect._id}`}  key={`${aspect._id}.invoke.input`} onChange={AspectPageChange}  value={aspect.invoke}/></p>
-			<p key={`${aspect._id}.tag`} >Tag:  <input data-path="tag" data-id={`${aspect._id}`}  key={`${aspect._id}.tag.input`} onChange={AspectPageChange}  value={aspect.tag}/></p>
-			<p key={`${aspect._id}.compel`} >Compel: <input data-path="compel" data-id={`${aspect._id}`} key={`${aspect._id}.compel.input`} onChange={AspectPageChange} value={aspect.compel}/></p>
-		</div>
-	}
+	const createAspect = (e) => { newAspect("aspects",document.getElementById("newAspectName").value) }
 	
-	const AspectCards = ({aspects}) => {return aspects.map(a => <AspectCard key={a._id} aspect={a}/>)} 
-	
-	const createAspect = (e) => {
-		newAspect(document.getElementById("newAspectName").value)
-	}
+	const Cards = aspects.length > 0 ? aspects.map(a => <AspectCard key={`${a._id}.card`} aspect={a} AspectPageChange={AspectPageChange}/> ) : null
 
-	return 	<div key="AspectCards">
-				{aspects.length > 0 ? <AspectCards key="AspectCards" aspects={aspects}/>: null}
+	const Search = <div key="newAspectBar"> 
 				<input data-path="newAspectName" id="newAspectName" onChange={AspectPageChange} value={newAspectName}/>
 				<button onClick={createAspect}>New Aspect</button>
+			</div>
+
+	return 	<div key="AspectPage">
+				{Search}
+				{Cards}
 		</div>	
 }	
+
 
 const Devotions = ({devotions}) => {
 	
@@ -128,16 +130,11 @@ const Guff = ({guff}) => {
 	
 }	
 export default function VenSheet({ven, dispatchAction, author}) {
-	const newUserDoc = (type) => {
-		return async (name) => {
-			var doc = await createDoc(type,author,name)
-			switch (type) {
-				case "aspect": {
-					VenViewInputChange(['aspects'],ven.aspects.concat(doc))	
-				}	
-			}
+
+	const newUserDoc = async (collection,name) => {
+			var doc = await createDoc(collection,author,name)
+			VenViewInputChange([collection],ven.aspects.concat(doc))	
 		}
-	}
 
 	const VenViewInputChange = (path,input) => {
 		dispatchAction(changeVenView(R.assocPath(path,input,ven)))
@@ -147,6 +144,6 @@ export default function VenSheet({ven, dispatchAction, author}) {
 			<VenHeader ven={ven}/>
 			<VirtueBar virtues={ven.virtues} VenViewInputChange={VenViewInputChange}/>	
 			<HighConcept highConcept={ven.highConcept} VenViewInputChange={VenViewInputChange}/>	
-			<AspectPage aspects={ven.aspects} newAspectName={ven.newAspectName || ""} newAspect={newUserDoc("aspect")} VenViewInputChange={VenViewInputChange}/>	
+			<AspectPage aspects={ven.aspects} newAspectName={ven.newAspectName} newAspect={newUserDoc} VenViewInputChange={VenViewInputChange}/>	
 		</div>
 }	
