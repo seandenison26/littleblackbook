@@ -1,6 +1,6 @@
 import React from "react"
 import * as R from 'ramda'
-import {changeVenView,saveVenView, createDoc} from "../actions.js"
+import {changeVenView,saveVenView,createDoc,updateDoc} from "../actions.js"
 import "./VenSheet.css"
 /*	Components Needed
  *		VenSheet 
@@ -14,7 +14,6 @@ const SaveButton = ({saveVen}) => {
 const VenHeader = ({ven}) => {
 	return	<h1 id="venheader">{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</h1> 
 }
-
 
 //Should we eventually have these be tied to an array? When creating a new character we want them to pick form the right array, which initially will be the one form the book but eventually let DMs offer a custom array?
 const VirtueBar = ({virtues,VenViewInputChange}) => {
@@ -37,7 +36,6 @@ const VirtueBar = ({virtues,VenViewInputChange}) => {
 			{VirtueTabs}
 		</div>		
 }
-
 
 const HighConcept = ({highConcept,VenViewInputChange}) => {
 	const HighConceptChange = (e) => { VenViewInputChange(['highConcept',e.target.dataset.path],e.target.value) }
@@ -129,21 +127,28 @@ const Domain = ({domain}) => {
 const Guff = ({guff}) => {
 	
 }	
-export default function VenSheet({ven, dispatchAction, author}) {
+export default function VenSheet({ven,view, dispatchAction, author}) {
 
-	const newUserDoc = async (collection,name) => {
-			var doc = await createDoc(collection,author,name)
-			VenViewInputChange([collection],ven.aspects.concat(doc))	
+	const venIdLens = (id) => R.lensIndex(R.findIndex(R.propEq('_id',id))(ven))
+
+	const newVenDoc = async (collection,name) => {
+			const addToArray = (value) => (obj) => R.assocPath([collection],obj[collection].concat(value),obj) 
+			let collectionDoc = await createDoc(collection,author,name)
+			let venDoc = await updateDoc(addToArray(aspectDoc)(R.find(R.propEq('_id',view._id))))	
+			let newVenArr = R.over(venIdLens(view._id),addToArray(aspectDoc),ven)
+		        dispatchAction(type:'CHANGE_VEN', ven:newVenArr)	
+		        dispatchAction(type:'CHANGE_VEN_VIEW', venView:venDoc)	
+			VenViewInputChange([collection],view[collection].concat(doc))
 		}
 
 	const VenViewInputChange = (path,input) => {
-		dispatchAction(changeVenView(R.assocPath(path,input,ven)))
+		dispatchAction(changeVenView(R.assocPath(path,input,view)))
 	}
 
 	return	<div id="venSheet">
-			<VenHeader ven={ven}/>
-			<VirtueBar virtues={ven.virtues} VenViewInputChange={VenViewInputChange}/>	
-			<HighConcept highConcept={ven.highConcept} VenViewInputChange={VenViewInputChange}/>	
-			<AspectPage aspects={ven.aspects} newAspectName={ven.newAspectName} newAspect={newUserDoc} VenViewInputChange={VenViewInputChange}/>	
+			<VenHeader ven={view}/>
+			<VirtueBar virtues={view.virtues} VenViewInputChange={VenViewInputChange}/>	
+			<HighConcept highConcept={view.highConcept} VenViewInputChange={VenViewInputChange}/>	
+			<AspectPage aspects={view.aspects} newAspectName={view.newAspectName} newAspect={newVenDoc} VenViewInputChange={VenViewInputChange}/>	
 		</div>
 }	

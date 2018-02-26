@@ -56,6 +56,22 @@ export const createDoc = (collection, author = null, name) => {
 	})	
 }
 
+//API call to server to update a specific document
+export const updateDoc = (doc) => {
+	let newDoc, url = `api/updateDoc/` 
+	let req = {
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		method: "POST",
+		body: JSON.stringify(doc)	
+	}	
+	return new Promise((res,rej) => {
+		fetch(url,req).then(response => response.json())
+		.then(res)
+	})
+}
 //Helper OBject, createVenObject, creates a blank VenView to be filled in.
 const createVenObject = (ven = {}) => {
 	return  {

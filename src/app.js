@@ -44,7 +44,7 @@ const App = ({data,util}) => {
 
 	return  <div id="viewContainer">
 			<VenSelectBar ven={data.ven}/>
-			<VenSheet author={data.user} ven={data.venView} dispatchAction={dispatchAction}/>
+			<VenSheet author={data.user}  ven={data.ven} view={data.venView} dispatchAction={dispatchAction}/>
 		</div>
 
 
