@@ -134,11 +134,11 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 	const newVenDoc = async (collection,name) => {
 			const addToArray = (value) => (obj) => R.assocPath([collection],obj[collection].concat(value),obj) 
 			let collectionDoc = await createDoc(collection,author,name)
-			let venDoc = await updateDoc(addToArray(aspectDoc)(R.find(R.propEq('_id',view._id))))	
-			let newVenArr = R.over(venIdLens(view._id),addToArray(aspectDoc),ven)
-		        dispatchAction(type:'CHANGE_VEN', ven:newVenArr)	
-		        dispatchAction(type:'CHANGE_VEN_VIEW', venView:venDoc)	
-			VenViewInputChange([collection],view[collection].concat(doc))
+			console.log(collectionDoc)
+			let venDoc = await updateDoc(addToArray(collectionDoc)(R.find(R.propEq('_id',view._id))(ven)))
+			let newVenArr = R.over(venIdLens(view._id),addToArray(collectionDoc),ven)
+		        dispatchAction({type:'CHANGE_VEN', ven:newVenArr})	
+		        dispatchAction({type:'CHANGE_VEN_VIEW', venView:venDoc})	
 		}
 
 	const VenViewInputChange = (path,input) => {

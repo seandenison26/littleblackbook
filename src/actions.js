@@ -64,7 +64,7 @@ export const updateDoc = (doc) => {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		},
-		method: "POST",
+		method: "PUT",
 		body: JSON.stringify(doc)	
 	}	
 	return new Promise((res,rej) => {
