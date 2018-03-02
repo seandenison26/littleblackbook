@@ -52,11 +52,11 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 }
 
 const SaveButton = ({doc,save}) => {
-	return <button className='delete-btn'  data-id={doc._id || ''} onClick={save}>Save</button>
+	return <button className='delete-btn'  data-doc={doc} onClick={save}>Save</button>
 }
 
 const DeleteButton = ({doc,del}) => {
-	return <button className='delete-btn' data-id={doc._id || ''} onClick={del}>Delete</button>
+	return <button className='delete-btn' data-doc={doc} onClick={del}>Delete</button>
 }
 
 const AspectCard = ({aspect, AspectPageChange}) => {
@@ -137,7 +137,6 @@ const Guff = ({guff}) => {
 
 const VenSelectBar = ({ven,view,getVen,selectVenView,SaveVen,DelVen}) => {
 	let options = ven.map((ven, i) => {return <option key={ven._id} value={i}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
-	console.log(view)
 	return 	<div id='venSelectBar'>
 				<select id="userVen" onChange={selectVenView} value={view}>
 					{options}
@@ -164,15 +163,27 @@ const CreateVenBar = ({newVenDoc,newVenName,changeName}) => {
 		</div>
 }
 
+const updateObj = (newObj) => (oldObj) => {
+}
+
 export default function VenSheet({ven,view, dispatchAction, author}) {
+	
+	const venIdLens = (id) => R.lensIndex(R.findIndex(R.propEq('_id',id))(ven))
+
 	const getVen = (e) => {
 		e.preventDefault()
 		getUserVen(author)
 		.then(action => dispatchAction(action))
 	}
 
-	const SaveVen = (e) => {
-		e.preventDefault()
+	const SaveVen = async (e) => {
+		console.log(ven)
+		let savedVen = await updateDoc(view)
+		let newArr = (obj) => savedVen	
+		let newVenArr =  R.over(venIdLens(savedVen._id),newArr,ven)
+		console.log(newVenArr)
+		dispatchAction({type:'CHANGE_VEN', ven:newVenArr})
+		dispatchAction({type:'CHANGE_VEN_VIEW', venView:savedVen})
 	}
 	const DelVen = (e) => {
 		e.preventDefault()
@@ -197,8 +208,6 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 		dispatchAction({type:'CHANGE_VEN', ven:newVenArr})
 		dispatchAction({type:'CHANGE_VEN_VIEW', venView:venDoc})
 	}
-
-	const venIdLens = (id) => R.lensIndex(R.findIndex(R.propEq('_id',id))(ven))
 
 	const VenViewInputChange = (path,input) => {
 		dispatchAction(changeVenView(R.assocPath(path,input,view)))
