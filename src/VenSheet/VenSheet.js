@@ -20,7 +20,7 @@ const VirtueBar = ({virtues,VenViewInputChange}) => {
 	       	input = e.target.value
 		VenViewInputChange(['virtues',virtue],input)
 	}
-	const VirtueTabs = Object.keys(virtues).map(v => {return <li key={`virtue.${v}`}>{v.toUpperCase()}: <select  data-path={`${v}`} onChange={VirtueChange} defaultValue={virtues[v]}>
+	const VirtueTabs = Object.keys(virtues).map(v => {return <li key={`virtue.${v}`}>{v.toUpperCase()}: <select  data-path={`${v}`} onChange={VirtueChange} defaultValue={virtues[v] || 'W'}>
 												<option key={`W${v}`} value="W">W</option>
 												<option key={`2${v}`} value="2">2</option>
 												<option key={`3${v}`} value="3">3</option>
@@ -39,15 +39,15 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 
 	return 	<div id="highConceptTab">
 			<h2>High Concept</h2>
-			<p className="highConTab" >Public Name: <input  id='highConceptTab.publicName'  data-path="publicName" type="text" onChange={HighConceptChange} value={highConcept.publicName} /></p>
-			<p className="highConTab" >Public Meaning: <input data-path="publicMeaning" onChange={HighConceptChange} value={highConcept.publicMeaning} /></p>
-			<p className="highConTab" >Family Name: <input id='highConceptTab.familyName' data-path="familyName" type="text" onChange={HighConceptChange} value={highConcept.familyName} /></p>
-			<p className="highConTab" >House: <input id='highConceptTab.house' data-path="house" type="text" onChange={HighConceptChange} value={highConcept.house} /></p>
-			<p className="highConTab" >Secret Name: <input data-path="secretName" type="text" onChange={HighConceptChange} value={highConcept.secretName}/></p>
-			<p className="highConTab" >Age: <input data-path="age" type="text" onChange={HighConceptChange} value={highConcept.age} /></p>
-			<p className="highConTab" >Family: <input data-path="family" onChange={HighConceptChange} type="text" value={highConcept.family}/></p>
-			<p className="highConTab" >Title: <input data-path="title" onChange={HighConceptChange} value={highConcept.title} /></p>
-			<p className="highConTab" >Age Points: <input data-path="agepoints" onChange={HighConceptChange} value={highConcept.agepoints}/></p>
+			<p className="highConTab" >Public Name: <input  id='highConceptTab.publicName'  data-path="publicName" type="text" onChange={HighConceptChange} value={highConcept.publicName || ``} /></p>
+			<p className="highConTab" >Public Meaning: <input data-path="publicMeaning" onChange={HighConceptChange} value={highConcept.publicMeaning || ``} /></p>
+			<p className="highConTab" >Family Name: <input id='highConceptTab.familyName' data-path="familyName" type="text" onChange={HighConceptChange} value={highConcept.familyName || ``} /></p>
+			<p className="highConTab" >House: <input id='highConceptTab.house' data-path="house" type="text" onChange={HighConceptChange} value={highConcept.house || ``} /></p>
+			<p className="highConTab" >Secret Name: <input data-path="secretName" type="text" onChange={HighConceptChange} value={highConcept.secretName || ``}/></p>
+			<p className="highConTab" >Age: <input data-path="age" type="text" onChange={HighConceptChange} value={highConcept.age || ``} /></p>
+			<p className="highConTab" >Family: <input data-path="family" onChange={HighConceptChange} type="text" value={highConcept.family || ``}/></p>
+			<p className="highConTab" >Title: <input data-path="title" onChange={HighConceptChange} value={highConcept.title || ``} /></p>
+			<p className="highConTab" >Age Points: <input data-path="agepoints" onChange={HighConceptChange} value={highConcept.agepoints || ``}/></p>
 		</div>
 }
 
@@ -152,7 +152,7 @@ const CreateVenBar = ({newVenDoc,newVenName,changeName}) => {
 
 	const changeNewVenName = (e) => {
 		let path = e.target.dataset.path, value = e.target.value
-		changeName(path,value)
+		changeName([path],value)
 	}			
 
 	return 	<div id='venCreateBar'>
@@ -183,9 +183,6 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 			venDoc = await updateDoc(addToArray(collectionDoc)(R.find(R.propEq('_id',view._id))(ven)))
 			newVenArr = R.over(venIdLens(view._id),addToArray(collectionDoc),ven) 
 		}
-		console.log(collectionDoc)
-		console.log(newVenArr)
-		console.log(venDoc)
 
 		dispatchAction({type:'CHANGE_VEN', ven:newVenArr})
 		dispatchAction({type:'CHANGE_VEN_VIEW', venView:venDoc})
@@ -199,10 +196,10 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 
 	return	<div id="venSheet">
 			<VenSelectBar ven={ven} getVen={getVen} selectVenView={selectVenView}/>
-			<CreateVenBar newVenDoc={createVenDoc} newVenName={view.newVenName} changeName={VenViewInputChange}/>
+			<CreateVenBar newVenDoc={createVenDoc} newVenName={view.newVenName || ``} changeName={VenViewInputChange}/>
 			<VenHeader ven={view}/>
 			<VirtueBar virtues={view.virtues} VenViewInputChange={VenViewInputChange}/>
 			<HighConcept highConcept={view.highConcept} VenViewInputChange={VenViewInputChange}/>
-			<AspectPage aspects={view.aspects} newAspectName={view.newAspectName} newAspect={createVenDoc} VenViewInputChange={VenViewInputChange}/>
+			<AspectPage aspects={view.aspects} newAspectName={view.newAspectName || ``} newAspect={createVenDoc} VenViewInputChange={VenViewInputChange}/>
 		</div>
 }

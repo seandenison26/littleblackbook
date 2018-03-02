@@ -3,7 +3,7 @@
 export default function reducer(state = {}, action = {}) {
 	
 	var newState = Object.assign(state, {})
-	console.log(action)	
+//	console.log(action)	
 	switch(action.type) {
 		case "CHANGE_PUB_NAME": {
 			newState.venView.highConcept = Object.assign(newState.venView.highConcept, {publicName:action.name})
