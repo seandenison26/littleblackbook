@@ -146,6 +146,9 @@ const VenSelectBar = ({ven,view,getVen,selectVenView}) => {
 }
 
 const CreateVenBar = ({newVenDoc,newVenName,changeName}) => {
+	const newVen = (e) => {
+		newVenDoc("ven",newVenName)
+	}
 
 	const changeNewVenName = (e) => {
 		let path = e.target.dataset.path, value = e.target.value
@@ -154,13 +157,11 @@ const CreateVenBar = ({newVenDoc,newVenName,changeName}) => {
 
 	return 	<div id='venCreateBar'>
 			<input data-path="newVenName" key="newVenName" onChange={changeNewVenName} value={newVenName}/>
-			<button onClick={newVenDoc}>Create Ven</button>
+			<button onClick={newVen}>Create Ven</button>
 		</div>
-
 }
 
 export default function VenSheet({ven,view, dispatchAction, author}) {
-
 	const getVen = (e) => {
 		e.preventDefault()
 		getUserVen(author)
@@ -173,21 +174,24 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 
 	const createVenDoc = async (collection,name) => {
 		const addToArray = (value) => (obj) => R.assocPath([collection],obj[collection].concat(value),obj)
-		let collectionDoc = await createDoc(collection,author,name)
+		let collectionDoc = await createDoc(collection,author,name),newVenArr,venDoc
+		if (collection === 'ven') {
+			venDoc = collectionDoc 
+			newVenArr = ven.concat(collectionDoc)
+		}
+		else {
+			venDoc = await updateDoc(addToArray(collectionDoc)(R.find(R.propEq('_id',view._id))(ven)))
+			newVenArr = R.over(venIdLens(view._id),addToArray(collectionDoc),ven) 
+		}
 		console.log(collectionDoc)
-		let venDoc = await updateDoc(addToArray(collectionDoc)(R.find(R.propEq('_id',view._id))(ven)))
-		let newVenArr = R.over(venIdLens(view._id),addToArray(collectionDoc),ven)
+		console.log(newVenArr)
+		console.log(venDoc)
+
 		dispatchAction({type:'CHANGE_VEN', ven:newVenArr})
 		dispatchAction({type:'CHANGE_VEN_VIEW', venView:venDoc})
 	}
 
-	const newVenDoc = (e) => {
-		createVenDoc("ven",e.target.dataset.name)
-	}
-
-
 	const venIdLens = (id) => R.lensIndex(R.findIndex(R.propEq('_id',id))(ven))
-
 
 	const VenViewInputChange = (path,input) => {
 		dispatchAction(changeVenView(R.assocPath(path,input,view)))
@@ -195,7 +199,7 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 
 	return	<div id="venSheet">
 			<VenSelectBar ven={ven} getVen={getVen} selectVenView={selectVenView}/>
-			<CreateVenBar newVenDoc={null} newVenName={view.newVenName} changeName={VenViewInputChange}/>
+			<CreateVenBar newVenDoc={createVenDoc} newVenName={view.newVenName} changeName={VenViewInputChange}/>
 			<VenHeader ven={view}/>
 			<VirtueBar virtues={view.virtues} VenViewInputChange={VenViewInputChange}/>
 			<HighConcept highConcept={view.highConcept} VenViewInputChange={VenViewInputChange}/>

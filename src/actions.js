@@ -34,7 +34,8 @@ export const createDoc = (collection, author = null, name) => {
 			newDoc = {
 				author: author,
 				collection: "ven",
-				highConcept:{
+				user: author,
+				highConcept: {
 					publicName:name
 				},
 				aspects: []
