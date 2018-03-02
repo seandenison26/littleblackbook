@@ -1,6 +1,6 @@
 import React from "react"
 import * as R from 'ramda'
-import {changeVenView,saveVenView,createDoc,updateDoc} from "../actions.js"
+import {getUserVen,updateVenView,changeVenView,saveVenView,createDoc,updateDoc} from "../actions.js"
 import "./VenSheet.css"
 /*	Components Needed
  *		VenSheet 
@@ -127,7 +127,29 @@ const Domain = ({domain}) => {
 const Guff = ({guff}) => {
 	
 }	
+
+const VenSelectBar = ({ven,view,getVen,selectVenView}) => {
+
+	let options = ven.map((ven, i) => {return <option key={ven._id} value={i}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
+	return 	<div id ='venSelectBar'>
+				<select id="userVen" onChange={selectVenView} value={view}>
+					{options}		
+				</select>
+			<button onClick={getVen}>Get Ven</button>	
+		</div>
+}
+
 export default function VenSheet({ven,view, dispatchAction, author}) {
+
+	const getVen = (e) => {
+		e.preventDefault()
+		getUserVen(author)
+		.then(action => dispatchAction(action))
+	}
+
+	const selectVenView = (e) => {
+		dispatchAction(changeVenView(ven[e.target.value]))
+	}
 
 	const venIdLens = (id) => R.lensIndex(R.findIndex(R.propEq('_id',id))(ven))
 
@@ -146,6 +168,7 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 	}
 
 	return	<div id="venSheet">
+			<VenSelectBar ven={ven} getVen={getVen} selectVenView={selectVenView}/>
 			<VenHeader ven={view}/>
 			<VirtueBar virtues={view.virtues} VenViewInputChange={VenViewInputChange}/>	
 			<HighConcept highConcept={view.highConcept} VenViewInputChange={VenViewInputChange}/>	

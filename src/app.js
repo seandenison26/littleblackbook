@@ -22,28 +22,8 @@ const util = {
 store.subscribe(() => {ReactDOM.render(<App data={store.getState()} util={util}/>, document.getElementById('app'))})
 
 const App = ({data,util}) => {
-	const getVen = (e) => {
-		e.preventDefault()
-		getUserVen(data.user)
-		.then(action => dispatchAction(action))
-	}
-
-	const selectVenView = (e) => {
-		dispatchAction(changeVenView(data.ven[e.target.value]))
-	}
 	
-	const VenSelectBar = ({ven}) => {
-		let options = ven.map((ven, i) => {return <option key={ven._id} value={i}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
-		return 	<div id ='venSelectBar'>
-					<select id="userVen" onChange={selectVenView} value={data.venView}>
-						{options}		
-					</select>
-				<button onClick={getVen}>Get Ven</button>	
-			</div>
-	}
-
 	return  <div id="viewContainer">
-			<VenSelectBar ven={data.ven}/>
 			<VenSheet author={data.user}  ven={data.ven} view={data.venView} dispatchAction={dispatchAction}/>
 		</div>
 
