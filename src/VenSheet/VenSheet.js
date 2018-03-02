@@ -52,11 +52,11 @@ const HighConcept = ({highConcept,VenViewInputChange}) => {
 }
 
 const SaveButton = ({doc,save}) => {
-	return <button className='delete-btn'  data-id={doc._id} onClick={save}>Save</button>
+	return <button className='delete-btn'  data-id={doc._id || ''} onClick={save}>Save</button>
 }
 
 const DeleteButton = ({doc,del}) => {
-	return <button className='delete-btn' data-id={doc._id} onClick={del}>Delete</button>
+	return <button className='delete-btn' data-id={doc._id || ''} onClick={del}>Delete</button>
 }
 
 const AspectCard = ({aspect, AspectPageChange}) => {
@@ -135,13 +135,16 @@ const Guff = ({guff}) => {
 
 }
 
-const VenSelectBar = ({ven,view,getVen,selectVenView}) => {
+const VenSelectBar = ({ven,view,getVen,selectVenView,SaveVen,DelVen}) => {
 	let options = ven.map((ven, i) => {return <option key={ven._id} value={i}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
+	console.log(view)
 	return 	<div id='venSelectBar'>
 				<select id="userVen" onChange={selectVenView} value={view}>
 					{options}
 				</select>
 			<button onClick={getVen}>Get Ven</button>
+			<SaveButton doc={view} save={SaveVen}/>
+			<DeleteButton doc={view} del={DelVen}/>
 		</div>
 }
 
@@ -166,6 +169,13 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 		e.preventDefault()
 		getUserVen(author)
 		.then(action => dispatchAction(action))
+	}
+
+	const SaveVen = (e) => {
+		e.preventDefault()
+	}
+	const DelVen = (e) => {
+		e.preventDefault()
 	}
 
 	const selectVenView = (e) => {
@@ -195,7 +205,7 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 	}
 
 	return	<div id="venSheet">
-			<VenSelectBar ven={ven} getVen={getVen} selectVenView={selectVenView}/>
+			<VenSelectBar ven={ven} view={view} getVen={getVen} SaveVen={SaveVen} DelVen={DelVen}  selectVenView={selectVenView}/>
 			<CreateVenBar newVenDoc={createVenDoc} newVenName={view.newVenName || ``} changeName={VenViewInputChange}/>
 			<VenHeader ven={view}/>
 			<VirtueBar virtues={view.virtues} VenViewInputChange={VenViewInputChange}/>
