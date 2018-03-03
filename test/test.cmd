@@ -11,3 +11,4 @@ CURL -H "Content-Type: application/json" -X POST "http://localhost:3000/api/crea
 IF /I  "%1"=="get"  (
 ECHO "Getting Document"
 CURL -X GET "http://127.0.0.1:5984/lbb_dev/eb13c689bc4f980c47224f927d02ba9b/"
+)

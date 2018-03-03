@@ -47,15 +47,25 @@ router.post('/api/createDoc', (req, res) => {
 	});
 });
 
-//updated a doc
+//update a doc
 router.put('/api/updateDoc', (req, res) => {
 	tasks.putDoc(req.body)
 		.then((newDoc) => {
-			console.log('SUCCESS')
+			console.log('UPDATE SUCCESS')
 			res.send(newDoc)
 		})
 		.catch((err) => {console.log(err),res.send(err)});
 });
 
+//flag a doc as deleted
+router.delete('/api/deleteDoc', (req, res) => {
+	tasks.delDoc(req.body)
+		.then((newDoc) => {
+			console.log('DELETE SUCCESS')
+			res.send(newDoc)
+		})
+		.catch((err) => {console.log(err),res.send(err)});
+});
 //exports the router
 module.exports = router;
+

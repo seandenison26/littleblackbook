@@ -109,6 +109,25 @@ const putDoc = (doc) => {
 			.catch((err) => { console.log('Update Err'), rej(err)})		
 	})
 }
-const tasks = {addUUID,getUserVen,putDoc,getDocByID}
+
+//deletes a doc based on _id and _rev 
+const delDoc = (doc) => {
+	const
+       		path = `/${doc._id}/`	
+		method = 'DELETE',
+		headers = {
+			'If-Match': `${doc._rev}`	
+		}
+
+	return new Promise((res,rej) => {
+		dbRequest(reqOptions(method,headers,path),body)
+			.then((data) => {
+				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(data)
+			})
+			.catch((err) => { console.log('Delete Err'), rej(err)})		
+	})
+}
+
+const tasks = {addUUID,getUserVen,putDoc,delDoc,getDocByID}
 
 module.exports =  tasks
