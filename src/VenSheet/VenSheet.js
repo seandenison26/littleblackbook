@@ -142,9 +142,10 @@ const Guff = ({guff}) => {
 }
 
 const VenSelectBar = ({ven,view,getVen,selectVenView,SaveVen,DelVen}) => {
-	let options = ven.map((ven, i) => {return <option key={ven._id} value={i}>{ven.highConcept.title} {ven.highConcept.publicName} {ven.highConcept.familyName}, {ven.highConcept.publicMeaning}</option>})
-	return 	<div id='venSelectBar'>
-				<select id="userVen" onChange={selectVenView} value={view}>
+	const VenOption = ({v}) => {return <option value={v._id}>{v.highConcept.title} {v.highConcept.publicName} {v.highConcept.familyName}, {v.highConcept.publicMeaning}</option>}
+	let options = ven.map((v) => <VenOption key={`select-${v._id}`} v={v}/>)
+	return 	<div key='venSelectBar'>
+				<select key="userVen" onChange={selectVenView} value={view}>
 					{options}
 				</select>
 			<button onClick={getVen}>Get Ven</button>
@@ -163,7 +164,7 @@ const CreateVenBar = ({newVenDoc,newVenName,changeName}) => {
 		changeName([path],value)
 	}			
 
-	return 	<div id='venCreateBar'>
+	return 	<div key='venCreateBar'>
 			<input data-path="newVenName" key="newVenName" onChange={changeNewVenName} value={newVenName}/>
 			<button onClick={newVen}>Create Ven</button>
 		</div>
@@ -196,7 +197,8 @@ export default function VenSheet({ven,view, dispatchAction, author}) {
 	}
 
 	const selectVenView = (e) => {
-		dispatchAction(changeVenView(ven[e.target.value]))
+		console.log(R.view(venIdLens(e.target.value),ven))
+		dispatchAction(changeVenView(R.view(venIdLens(e.target.value),ven)))
 	}
 
 	const createVenDoc = async (collection,name) => {
