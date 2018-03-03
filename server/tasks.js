@@ -122,7 +122,7 @@ const delDoc = (doc) => {
 	return new Promise((res,rej) => {
 		dbRequest(reqOptions(method,headers,path),body)
 			.then((data) => {
-				data.ok === true ? res(Object.assign(doc,{_rev:data.rev})) : rej(data)
+				data.ok === true ? res(data) : rej(data)
 			})
 			.catch((err) => { console.log('Delete Err'), rej(err)})		
 	})
