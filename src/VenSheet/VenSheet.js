@@ -14,30 +14,36 @@ const VenHeader = ({ven}) => {
 
 //Should we eventually have these be tied to an array? When creating a new character we want them to pick form the right array, which initially will be the one form the book but eventually let DMs offer a custom array?
 const VirtueBar = ({virtues,VenViewInputChange}) => {
+	const VIRTUES = ["strength","cunning","courage","beauty","wisdom","prowess"]
 	const VirtueChange = (e) => {
 	let
 	       	virtue = e.target.dataset.path,
 	       	input = e.target.value
 		VenViewInputChange(['virtues',virtue],input)
 	}
-	const VirtueTabs = Object.keys(virtues).map(v => {return <li key={`virtue.${v}`}>{v.toUpperCase()}: <select  data-path={`${v}`} onChange={VirtueChange} defaultValue={virtues[v] || 'W'}>
-												<option key={`W${v}`} value="W">W</option>
-												<option key={`2${v}`} value="2">2</option>
-												<option key={`3${v}`} value="3">3</option>
-												<option key={`4${v}`} value="4">4</option>
-												<option key={`5${v}`} value="5">5</option>
-												<option key={`6${v}`} value="6">6</option>
-												<option key={`7${v}`} value="7">7</option>
-											</select></li>})
-	return  <div id="virtuebar">
-			{VirtueTabs}
-		</div>
+
+	const VirtueTab = ({v}) => {
+		return  <li key={v}> {v.toUpperCase()}: 
+				<select  data-path={`${v}`} onChange={VirtueChange} value={virtues[v]}>
+						<option value="W">W</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+				</select>
+			</li>
+	}
+
+	return VIRTUES.map(v => <VirtueTab key={v} v={v}/>)
+		
 }
 
 const HighConcept = ({highConcept,VenViewInputChange}) => {
-	const HighConceptChange = (e) => { VenViewInputChange(['highConcept',e.target.dataset.path],e.target.value) }
+	const HighConceptChange = (e) => VenViewInputChange(['highConcept',e.target.dataset.path],e.target.value) 
 
-	return 	<div id="highConceptTab">
+	return 	<div key="highConceptTab">
 			<h2>High Concept</h2>
 			<p className="highConTab" >Public Name: <input  id='highConceptTab.publicName'  data-path="publicName" type="text" onChange={HighConceptChange} value={highConcept.publicName || ``} /></p>
 			<p className="highConTab" >Public Meaning: <input data-path="publicMeaning" onChange={HighConceptChange} value={highConcept.publicMeaning || ``} /></p>
